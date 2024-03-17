@@ -1,0 +1,24 @@
+.container {
+    margin-top: 152px;
+    margin-bottom: 40px;
+}
+
+.card {
+    margin-bottom: 20px;
+    border: 1px solid #d5caca;
+    margin-right: 10px;
+    margin-left: 10px;
+    margin-top: 20px;
+    height: 600px;
+}
+
+
+.card:hover {
+    transform: scale(1.1);
+    transition: transform 0.3s ease-in-out;
+}
+
+p.description {
+    overflow-y: auto;
+    max-height: 200px;
+}
