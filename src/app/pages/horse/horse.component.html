@@ -1,36 +1,16 @@
-<p>horse works!</p>
-
-<style>
-    .dropdown {
-        position: relative;
-        display: inline-block;
-    }
-
-    .dropdown-content {
-        display: none;
-        position: absolute;
-        background-color: #f9f9f9;
-        min-width: 160px;
-        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-        padding: 12px 16px;
-        z-index: 1;
-    }
-
-    .dropdown:hover .dropdown-content {
-        display: block;
-    }
-</style>
-
+<div class="dropdown">
+    <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        {{selectedBreed}} </button>
+    <!-- estar pendiente de este dropdown para filtrar por raza -->
+    <div class="dropdown-content">
+        <p (click)="lista()">Todos</p>
+        @for (breed of horsesList2; track $index) {
+        <p (click)="filterByBreed(breed.breed)"> {{breed.breed}} </p>
+        }
+    </div>
+</div>
 <div class="container">
 
-    <div class="dropdown">
-        <span>Mouse over me</span>
-        <div class="dropdown-content">
-            @for (breed of horsesList; track $index) {
-            <p> {{breed.breed}} </p>
-            }
-        </div>
-    </div>
 
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
 

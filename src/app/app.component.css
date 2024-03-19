@@ -40,51 +40,37 @@
 
 
 
-@media (min-width: 1202px) {
 
-    .navProblema ul {
-        float: right;
-    }
-
-    #junto a {
-        margin-left: 1em;
-    }
-}
-
-#junto {
-    background-color: antiquewhite;
-    justify-content: space-between;
-    font-size: 1.3em;
-    font-family: 'Times New Roman', Times, serif;
-    font-weight: bold;
-    padding: 10px;
-
-}
-
-#junto a {
-    color: black;
-}
-
-#junto a:hover {
-    color: #ff6600;
-}
 
 header {
     position: fixed;
     width: 100%;
     top: 0;
     z-index: 1000;
-
     /* Asegura que el navbar se muestre por encima de otros elementos */
+    background-color: #776B5D;
+    font-family: 'Congenial' Light;
+
+
 }
 
-#divPpal {
-    padding-left: 20px;
-    padding-right: 10px;
+a {
+    color: white;
+}
+
+a:hover {
+    color: rgb(239, 231, 200);
+}
+
+li {
+    font-size: 26px;
 
 }
 
-
+.nav-link.active {
+    color: rgb(0, 0, 0);
+    /* Cambia esto al color que quieras */
+}
 
 .carrito {
     width: 5vh;
@@ -117,13 +103,9 @@ header {
 }
 
 
-* {
-    font-family: Open Sans;
-}
-
 
 .footer-distributed {
-    background: #666;
+    background: #776B5D;
     box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.12);
     box-sizing: border-box;
     width: 100%;
@@ -314,5 +296,10 @@ header {
     .footer-distributed .footer-center i {
         margin-left: 0;
     }
+
+}
+
+.prueba {
+    background-color: #EBE3D5;
 
 }

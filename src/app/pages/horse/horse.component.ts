@@ -12,20 +12,34 @@ import { ApiHorsesService } from '../../services/horses/api-horses.service';
 })
 export class HorseComponent implements OnInit {
 
+  originalHorsesList: IHorse[] = [];
   horsesList: IHorse[] = [];
+  horsesList2: IHorse[] = [];
+  selectedBreed: string = 'Filtrar por Raza';
 
   private _apiHorsesService = inject(ApiHorsesService);
 
   ngOnInit(): void {
     this._apiHorsesService.getHorses().subscribe((data: IHorse[]) => {
-      console.log(data);
-      this.horsesList = data;
-    }
+      this.originalHorsesList = data;
+      this.horsesList = [...this.originalHorsesList];
+      this.horsesList2 = this.filterHorses(this.originalHorsesList);
+    });
+  }
+
+  filterHorses(horsesList: IHorse[]) {
+    return horsesList.filter((horse, index, self) =>
+      index === self.findIndex((h) => h.breed === horse.breed)
     );
   }
 
-  horsesList2 = this.horsesList.filter((horse, index, self) =>
-  index === self.findIndex((h) => h.breed === horse.breed)
-);
+  filterByBreed(breed: string) {
+    this.horsesList = this.originalHorsesList.filter(horse => horse.breed === breed);
+    this.selectedBreed = breed;
+  }
+
+  lista() {
+    this.horsesList = [...this.originalHorsesList];
+  }
 
 }
