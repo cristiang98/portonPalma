@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -11,9 +11,21 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 })
 export class AppComponent {
   title = 'porton-de-la-palma';
-  menuOption:string = '';
+  menuOption: string = '';
+  showNavbar: boolean = true;
 
-  onOption(option:string){
+  constructor(private router: Router) {
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        // Determina si el navbar debe mostrarse según la ruta actual
+        this.showNavbar = !['/user/auth/login', '/user/auth/register'].includes(event.url);
+      }
+    });
+  }
+
+  onOption(option: string) {
     this.menuOption = option;
   }
+
+
 }

@@ -1,6 +1,8 @@
 <!-- Navbar -->
 <header>
+
   <nav class="navbar navbar-expand-lg navbar-light ">
+
     <!-- Container wrapper -->
     <div class="container-fluid">
       <!-- Toggle button -->
@@ -10,7 +12,7 @@
       </button>
 
       <!-- Collapsible wrapper -->
-      <div class="collapse navbar-collapse" id="navbar-toggler">
+      <div class="collapse navbar-collapse" id="navbar-toggler" style="margin-left: 3%;">
         <!-- Navbar brand -->
         <a class="navbar-brand mt-2 mt-lg-0" routerLink="" [ngClass]="{active:menuOption === 'home'}"
           (click)="onOption('home')">
@@ -31,7 +33,8 @@
               (click)="onOption('horse/v1')">CABALLOS</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">PRODUCTOS</a>
+            <a class="nav-link" routerLink="product/v1" [ngClass]="{active: menuOption === 'product/v1'}"
+              (click)="onOption('product/v1')">PRODUCTOS</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">SERVICIOS</a>
@@ -49,35 +52,50 @@
 
         <!-- Left links -->
       </div>
-      <!-- Collapsible wrapper -->
 
       <!-- Right elements -->
-      <div class="d-flex align-items-center">
+      <div class="d-flex align-items-center" style="margin-right: 3%; ">
+        <!-- Avatar -->
+        <div class="dropdown dropdown-extendido">
+          <img src="assets/iconos/login.png" alt="" class="rounded-circle carrito">
+          <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          </button>
+
+          <div class="dropdown-content">
+            <form class="px-4 ">
+              <div class="mb-3">
+                <label for="exampleDropdownFormEmail1" class="form-label">Correo electronico</label>
+                <input type="email" class="form-control" id="exampleDropdownFormEmail1" placeholder="email@example.com">
+              </div>
+              <div class="mb-3">
+                <label for="exampleDropdownFormPassword1" class="form-label">Contraseña</label>
+                <input type="password" class="form-control" id="exampleDropdownFormPassword1" placeholder="Password">
+              </div>
+              <div class="mb-3">
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="dropdownCheck">
+                  <label class="form-check-label" for="dropdownCheck">
+                    Recuerdame
+                  </label>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-primary" style="color: white;">Ingresar</button>
+            </form>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" routerLink="user/auth/register"
+              [ngClass]="{active:menuOption === 'user/auth/register'}" (click)="onOption('user/auth/register')">¿Eres
+              nuevo? Regístrate</a>
+            <a class="dropdown-item" href="#">¿Olvidaste tu Contraseña?</a>
+          </div>
+        </div>
+
+
         <!-- Icon -->
-        <a class="text-reset me-3" href="#">
+        <a class="text-reset me-3">
           <img src="../assets/iconos/iconoCarrito.png" alt="" class="rounded-circle carrito">
         </a>
 
 
-        <!-- Avatar -->
-        <div class="dropdown">
-          <a class="dropdown-toggle d-flex align-items-center hidden-arrow" href="#" id="navbarDropdownMenuAvatar"
-            role="button" data-toggle="dropdown" aria-expanded="false">
-            <img src="../assets/iconos/login.png" class="rounded-circle carrito" alt="Black and White Portrait of a Man"
-              loading="lazy" />
-          </a>
-          <ul class="dropdown-menu " aria-labelledby="navbarDropdownMenuAvatar">
-            <li>
-              <a class="dropdown-item" href="#">My profile</a>
-            </li>
-            <li>
-              <a class="dropdown-item">Settings</a>
-            </li>
-            <li>
-              <a class="dropdown-item">Logout</a>
-            </li>
-          </ul>
-        </div>
 
 
       </div>
@@ -85,11 +103,12 @@
     </div>
     <!-- Container wrapper -->
   </nav>
+
 </header>
 
 <!-- inicio/home -->
 <div class="prueba">
-<router-outlet />
+  <router-outlet />
 </div>
 
 <footer class="footer-distributed">

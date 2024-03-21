@@ -1,1 +1,36 @@
-<p>products works!</p>
+<div class="dropdown">
+    <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        {{selectedCategory}} </button>
+    <!-- estar pendiente de este dropdown para filtrar por raza -->
+    <div class="dropdown-content">
+        <p (click)="lista()">Todos</p>
+        @for (product of productList2; track $index) {
+        <p (click)="filterByCategory(product.category)"> {{product.category}} </p>
+        }
+    </div>
+</div>
+<div class="container">
+
+
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+
+        @for (product of productList; track $index) {
+        <div class="col-sm-4">
+            <div class="card shadow-sm">
+                <img class="bd-placeholder-img card-img-top" width="100%" height="225" src="{{product.imagePath}}"
+                    alt="Imagen del caballo">
+                <div class="card-body">
+                    <h5 class="card-title text-body-primary text-center">{{product.nameProduct}}</h5>
+
+                    <p class="description"> {{product.description}} .</p>
+
+                    <p class="card-text"> <strong>Precio:</strong> {{product.price| currency}} .</p>
+                    
+                    <button class="btn btn-primary">Agregar</button>
+
+                </div>
+            </div>
+        </div>
+        }
+    </div>
+</div>

@@ -1,0 +1,131 @@
+<div class="container-fluid">
+
+    <div class="row ">
+
+        <h1 class="">Registro de Usuario</h1>
+        <form class="formContainer" [formGroup]="registerForm" (ngSubmit)="submit($event)">
+            <div class="row justify-content-center">
+                <div class="col-3">
+                    <label for="nombre">*Nombre: </label>
+                    <input id="nombre" type="text" class="form-control" placeholder="Nombre" aria-label="Nombre"
+                        formControlName="firstname" [ngClass]="{'is-invalid': hasErrors('firstname', 'required')}">
+                    <div *ngIf="hasErrors('firstname', 'required')" class="text-danger">El nombre es requerido</div>
+                </div>
+                <div class="col-3">
+                    <label for="apellido">*Apellido: </label>
+                    <input id="apellido" type="text" class="form-control" placeholder="Apellido" aria-label="Apellido"
+                        formControlName="lastName" [ngClass]="{'is-invalid': hasErrors('lastName', 'required')}">
+                    <div *ngIf="hasErrors('lastName', 'required')" class="text-danger">El apellido es requerido</div>
+                </div>
+            </div>
+
+            <div class="row justify-content-center">
+
+
+                <div class="col-2 ">
+                    <label for="cedula">*Cédula: </label>
+                    <input id="cedula" type="text" class="form-control" placeholder="Cédula" aria-label="Cedula"
+                        formControlName="dni" [ngClass]="{'is-invalid': hasErrors('dni', 'required')}">
+                    <div *ngIf="hasErrors('dni', 'required')" class="text-danger">La cédula es requerida</div>
+                </div>
+
+                <div class="col-2">
+                    <label for="correo">*Correo Electrónico: </label>
+                    <input id="correo" type="text" class="form-control" placeholder="Correo Electrónico:"
+                        aria-label="*Correo Electronico:" formControlName="email"
+                        [ngClass]="{'is-invalid': hasErrors('email', 'required') || hasErrors('email', 'email')}">
+                    <div *ngIf="hasErrors('email', 'required')" class="text-danger">El Correo electrónico es requerido
+                    </div>
+                </div>
+                <div class="col-2">
+                    <label for="celular">*Celular o Teléfono: </label>
+                    <input id="celular" type="text" class="form-control" placeholder="Celular o Teléfono"
+                        aria-label="Celular" formControlName="cellphone"
+                        [ngClass]="{'is-invalid': hasErrors('cellphone', 'required')}">
+                    <div *ngIf="hasErrors('cellphone', 'required')" class="text-danger">El celular o el telefono es
+                        requerido</div>
+                </div>
+
+
+            </div>
+
+            <div class="row justify-content-center">
+
+
+
+                <div class="col-2">
+
+                    <label for="country">*País: </label>
+                    <select id="country" class="form-control" formControlName="country"
+                        [ngClass]="{'is-invalid': hasErrors('country', 'required')}">
+                        <option [value]="">
+                            {{ country?.name }}
+                        </option>
+                    </select>
+                    <div *ngIf="hasErrors('country', 'required')" class="text-danger">El país es requerido</div>
+                </div>
+
+                <div class="col-2">
+                    <label for="departamento">*Departamento: </label>
+                    <select class="form-control" id="departamento" formControlName="department"
+                        [ngClass]="{'is-invalid': hasErrors('department', 'required')}">
+                        <option [value]="">
+                            {{ department?.name }}
+                        </option>
+                    </select>
+                    <div *ngIf="hasErrors('department', 'required')" class="text-danger">El departamento es requerido
+                    </div>
+                </div>
+
+                <div class="col-2">
+                    <label for="city">*Ciudad: </label>
+                    <select class="form-control" id="city" formControlName="city"
+                        [ngClass]="{'is-invalid': hasErrors('city', 'required')}">
+                        <option value="">Seleccione una Ciudad</option>
+                        <option *ngFor="let cityItem of city" [value]="cityItem?.id">
+                            {{ cityItem?.name }}
+                        </option>
+                    </select>
+                    <div *ngIf="hasErrors('city', 'required')" class="text-danger">La ciudad es requerida</div>
+                </div>
+
+
+            </div>
+            <div class="row justify-content-center">
+
+                <div class="col-2">
+                    <label for="">*Dirección: </label>
+                    <input type="text" class="form-control" placeholder="Dirección" aria-label="Dirección"
+                        formControlName="address" [ngClass]="{'is-invalid': hasErrors('address', 'required')}">
+                    <div *ngIf="hasErrors('address', 'required')" class="text-danger">La Dirección es requerida</div>
+                </div>
+                <div class="col-2">
+                    <label for="">*Contraseña: </label>
+                    <input type="text" class="form-control" placeholder="Contraseña" aria-label="Contraseña"
+                        formControlName="password"
+                        [ngClass]="{'is-invalid': hasErrors('password', 'required') || hasErrors('password', 'minlength')}">
+                    <div *ngIf="hasErrors('password', 'required')" class="text-danger">La contraseña es requerida</div>
+                    <div *ngIf="hasErrors('password', 'minlength')" class="text-danger">La contraseña debe tener minimo
+                        6 caracteres</div>
+                </div>
+
+                <div class="col-2">
+                    <label for="">*Confirmar Contraseña: </label>
+                    <input type="text" class="form-control" placeholder="Confirmar Contraseña" aria-label="Contraseña"
+                        formControlName="confirmPassword" [ngClass]="{'is-invalid': hasErrors('password', 'required')}">
+                    <div *ngIf="hasErrors('confirmPassword', 'required')" class="text-danger">La confirmación de la
+                        contraseña es requerida
+                    </div>
+                    <div *ngIf="registerForm.hasError('notSame')" class="text-danger">Las contraseñas no coinciden</div>
+                </div>
+
+
+            </div>
+
+
+            <button type="submit" [disabled]="!registerForm.valid">Registrar</button>
+
+        </form>
+    </div>
+
+</div>

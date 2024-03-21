@@ -1,0 +1,84 @@
+.container {
+    margin-top: 40px;
+}
+
+
+.card {
+    margin-bottom: 50px;
+    border: 1px solid #d5caca;
+    border-radius: 20px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.9);
+    margin-right: 10px;
+    margin-left: 10px;
+    margin-top: 20px;
+    height: 600px;
+    background-color: #776B5D;
+    color: white;
+}
+
+
+
+
+.card:hover {
+    transform: scale(1.1);
+    transition: transform 0.3s ease-in-out;
+}
+
+p.description {
+    overflow-y: auto;
+    max-height: 200px;
+}
+
+.dropdown {
+    position: relative;
+    left: 5%;
+    /* Mueve el dropdown 50px a la derecha */
+    /* right: 50px;  Mueve el dropdown 50px a la izquierda */
+    display: inline-block;
+    margin-top: 200px;
+    background-color: #EBE3D5;
+}
+
+.btn {
+    background-color: #776B5D;
+    border: none;
+    color: rgb(255, 255, 255);
+    padding: 12px 16px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 10px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    transition-duration: 0.4s;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #776B5D;
+    color: white;
+    min-width: 160px;
+    margin-left: 20%;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    padding: 12px 16px;
+    z-index: 1;
+    cursor: pointer;
+}
+
+.dropdown-content p {
+    transition: all 0.3s ease;
+}
+
+.dropdown-content p:hover {
+    color: rgb(239, 231, 200);
+    /* Cambia esto al color de letra que quieras */
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
