@@ -3,6 +3,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { RegisterService } from '../../services/register/register.service';
 import { CommonModule, NgClass } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { IUser } from '../../models/userRegister/userRegister.model';
 
 @Component({
   selector: 'app-register',
@@ -53,17 +54,12 @@ export class RegisterComponent implements OnInit {
     event.preventDefault();  // Evita que el formulario se envíe de la forma predeterminada
     if (this.registerForm.valid) {
       const formValues = this.registerForm.value;
-      const user = {
+      const user : IUser= {
         name: this.capitalize(`${formValues.firstname} ${formValues.lastName}`),
         email: formValues.email,
         dni: formValues.dni,
-        cellphone: formValues.number,
-        address: {
-          country: formValues.country,
-          department: formValues.department,
-          city: formValues.city,
-          address: formValues.address
-        },
+        cellphone: formValues.cellphone,
+        address: `${formValues.country} ${formValues.department} ${formValues.city}`, // Aquí puedes concatenar los valores de dirección, ciudad, departamento y país
         password: formValues.password
       };
       this._httpCountry.registerUser(user).subscribe(
