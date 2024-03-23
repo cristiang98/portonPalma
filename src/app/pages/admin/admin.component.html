@@ -1,1 +1,45 @@
-<h1>hola</h1>
+
+<div class="wrapper d-flex align-items-stretch">
+  <nav id="sidebar">
+
+    <div class="img bg-wrap text-center py-4" style="background-image: url(images/bg_1.jpg);">
+      <div class="user-logo">
+        <div class="img" style="background-image: url(images/logo.jpg);"></div>
+        <h3>Aqui debe de mostrar el nombre del user</h3>
+      </div>
+    </div>
+    <ul class="list-unstyled components mb-5">
+      <li class="active">
+        <a ><span class="fa fa-home mr-3"></span>Inicio</a>
+      </li>
+      <li>
+          <a routerLink="admin/horse/v1" [ngClass]="{active:menuOption === 'admin/horse/v1'}"
+          (click)="onOption('admin/horse/v1')" ><span class="fa fa-download mr-3 notif" ></span>Caballos</a>
+      </li>
+      <li>
+        <a routerLink="admin/product/v1" [ngClass]="{active:menuOption === 'admin/product/v1'}"
+        (click)="onOption('admin/product/v1')"><span class="fa fa-gift mr-3"></span> Productos</a>
+      </li>
+      <li>
+        <a><span class="fa fa-trophy mr-3"></span> Servicios</a>
+      </li>
+      <li>
+        <a routerLink="admin/event/v1" [ngClass]="{active:menuOption === 'admin/event/v1'}"
+        (click)="onOption('admin/event/v1')"><span class="fa fa-cog mr-3"></span> Eventos </a>
+      </li>
+      <li>
+        <a ><span class="fa fa-support mr-3"></span> Editar Usuarios</a>
+      </li>
+      <li>
+        <a ><span class="fa fa-sign-out mr-3"></span> Salir</a>
+      </li>
+    </ul>
+
+  </nav>
+
+    <!-- Page Content  -->
+    <div id="content" class="p-4 p-md-5 pt-5">
+      
+    </div>
+  
+</div>

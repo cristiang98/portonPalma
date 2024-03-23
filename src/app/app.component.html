@@ -109,9 +109,18 @@
 </div>
 
 <!-- inicio/home -->
-<div class="prueba">
-  <router-outlet />
-</div>
+@if(showNavbar){
+
+  <div class="prueba" >
+    <router-outlet />
+  </div>
+
+
+  }@else{
+    <div  style="background-color: white;" >
+      <router-outlet />
+    </div>
+  }
 
 
 

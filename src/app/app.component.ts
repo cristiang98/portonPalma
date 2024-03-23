@@ -14,13 +14,13 @@ export class AppComponent {
   title = 'porton-de-la-palma';
   menuOption: string = '';
   showNavbar: boolean = true;
-  private _AdminService = inject(AdminService);
+  private _adminService = inject(AdminService);
 
   constructor(private router: Router) {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         // Determina si el navbar debe mostrarse según la ruta actual
-        this.showNavbar = !['/user/auth/admin'].includes(event.url);
+        this.showNavbar = !['/admin', '/admin/horse/v1','/admin/product/v1','/admin/event/v1'].includes(event.url);
       }
     });
   }
