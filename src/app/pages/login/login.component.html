@@ -1,0 +1,19 @@
+<form class="px-4" (submit)="login(); $event.preventDefault()">
+  <div class="mb-3">
+    <label for="exampleDropdownFormEmail1" class="form-label">Correo electronico</label>
+    <input type="email" class="form-control" id="exampleDropdownFormEmail1" placeholder="email@example.com" [(ngModel)]="email" name="email">
+  </div>
+  <div class="mb-3">
+    <label for="exampleDropdownFormPassword1" class="form-label">Contraseña</label>
+    <input type="password" class="form-control" id="exampleDropdownFormPassword1" placeholder="Password" [(ngModel)]="password" name="password">
+  </div>
+  <div class="mb-3">
+    <div class="form-check">
+      <input type="checkbox" class="form-check-input" id="dropdownCheck">
+      <label class="form-check-label pruebaLabel" for="dropdownCheck">
+        Recuerdame
+      </label>
+    </div>
+  </div>
+  <button type="submit" class="btn btn-primary" style="color: white; background-color: #776B5D;">Ingresar</button>
+</form>
