@@ -1,10 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { UserLoginRequest } from '../../models/user/user.model';
 import { catchError } from 'rxjs/operators';
 import { JwtDecoderService } from '../jwt_decoder/jwt-decoder.service';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { JwtModule } from '@auth0/angular-jwt';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +23,9 @@ export class LoginService {
   private _jwtDecoder = inject(JwtDecoderService);
   private nameJwt: string = '';
 
+  private _jwtHelper = inject(JwtHelperService);
+  private _cookieService = inject(CookieService);
+
   constructor() {
     let currentUser = localStorage.getItem('currentUser');
     this.currentUserSubject = new BehaviorSubject<any>(currentUser ? JSON.parse(currentUser) : null);
@@ -31,7 +37,7 @@ export class LoginService {
   }
 
   loginUser(user: UserLoginRequest): Observable<any> {
-    return this._httpLogin.post<any>(`${this.urlBase}/login`, user, { observe: 'response', responseType: 'text' as 'json' })
+    return this._httpLogin.post<any>(`${this.urlBase}/login`, user, { observe: 'response', responseType: 'text' as 'json' , withCredentials: true})
       .pipe(map(response => {
         let token: string | null = null;
         const setCookieHeader = response.headers.get('Set-Cookie');
@@ -54,32 +60,73 @@ export class LoginService {
           // injecta el servicio manual de decoder
           let decodedToken = this._jwtDecoder.decode(token);
           const user = {
-            token: token,
-            role: decodedToken.role,
-            userEmail: decodedToken.userEmail,
-            dni: decodedToken.dni,
-            cart: decodedToken.cart,
-            sub: decodedToken.sub,
-            iat: decodedToken.iat,
-            exp: decodedToken.exp
+            token: token, // Almacena el token de autenticación
+            role: decodedToken.role, // Almacena el rol del usuario
+            userEmail: decodedToken.userEmail, // Almacena el email del usuario
+            dni: decodedToken.dni, // Almacena el DNI del usuario
+            cart: decodedToken.cart, // Almacena el carrito del usuario
+            sub: decodedToken.sub, // Almacena el nombre de usuario del token
+            iat: decodedToken.iat, // Almacena la fecha de emisión del token
+            exp: decodedToken.exp // Almacena la fecha de expiración del token
             // Agrega aquí cualquier otro claim que necesites
           };
           this.nameJwt = user.sub;
-          // Almacena los claims del usuario en el localStorage
-          localStorage.setItem('currentUser', JSON.stringify(user));
+          console.log(token);
+          // Almacena los claims del usuario en la cookie
+          this._cookieService.set('token', JSON.stringify(user));
+          // Almacena la fecha de expiración en la cookie
+          this._cookieService.set('expires_at', JSON.stringify(decodedToken.exp));
           this.currentUserSubject.next(user);
+          console.log(token+" prueba 2")
+
+          
         }
 
         return response;
       }));
-    }
+  }
 
-    logout() {
-      localStorage.removeItem('currentUser');
-      this.currentUserSubject.next(null);
-    }
+  logout() {
+    return this._httpLogin.post<any>(`${this.urlBase}/logout`, {}, { withCredentials: true })
+      .pipe(tap(() => {
+        // Limpiar los datos del usuario
+        this._cookieService.delete('token');
+        this._cookieService.delete('expires_at');
+        this.currentUserSubject.next(null);
+      }));
+  }
 
     getName(): string {
       return this.nameJwt;
     }
+
+    getRole(): string {
+      return this.currentUserValue.role;
+    }
+
+    getToken(): string {
+      console.log('Retrieved token: 3', this.currentUserValue.token);
+      return this.currentUserValue.token;
+    }
+
+
+    
+
+    isTokenExpired(): boolean {
+      const token = this.getToken(); // Obtén el token de donde lo estás almacenando
+      if (!token) {
+        return true;
+      }
+      return this._jwtHelper.isTokenExpired(token);
+    }
+
+
+    isAdmin(): boolean {
+      if(this.getRole()==='ADMIN'){
+        return true;
+      }
+      return false;
+    }
+
+
 }

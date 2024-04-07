@@ -1,36 +1,43 @@
-<div class="dropdown">
-    <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-        {{selectedBreed}} </button>
-    <!-- estar pendiente de este dropdown para filtrar por raza -->
-    <div class="dropdown-content">
-        <p (click)="lista()">Todos</p>
-        @for (breed of horsesList2; track $index) {
-        <p (click)="filterByBreed(breed.breed)"> {{breed.breed}} </p>
-        }
+<div class="container-fluid">
+    <div class="row">
+        <h1>Lista de caballos</h1>
     </div>
-</div>
-<div class="container">
 
+        <div class="dropdown">
 
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-
-        @for (caballo of horsesList; track $index) {
-        <div class="col-sm-4">
-            <div class="card shadow-sm">
-                <img class="bd-placeholder-img card-img-top" width="100%" height="225" src="{{caballo.imagePath}}"
-                    alt="Imagen del caballo">
-                <div class="card-body">
-                    <h5 class="card-title text-body-primary text-center">{{caballo.breed}}</h5>
-
-                    <p class="description"> {{caballo.description}} .</p>
-
-                    <p class="card-text"> <strong>Precio:</strong> {{caballo.price | currency}} .</p>
-                    <p class="card-text"> <strong>Para mas informacion, comunicate con nosotros al numero +57
-                            3117077455</strong></p>
-
-                </div>
+            <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                {{selectedBreed}} </button>
+            <!-- estar pendiente de este dropdown para filtrar por raza -->
+            <div class="dropdown-content">
+                <p (click)="lista()">Todos</p>
+                @for (breed of horsesList2; track $index) {
+                <p (click)="filterByBreed(breed.breed)"> {{breed.breed}} </p>
+                }
             </div>
         </div>
-        }
-    </div>
+        <div class="container">
+
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+
+                @for (caballo of horsesList; track $index) {
+                <div class="col-sm-4">
+                    <div class="card shadow-sm">
+                        <img class="bd-placeholder-img card-img-top" width="100%" height="225"
+                            src="{{caballo.imagePath}}" alt="Imagen del caballo">
+                        <div class="card-body">
+                            <h5 class="card-title text-body-primary text-center">{{caballo.breed}}</h5>
+
+                            <p class="description"> {{caballo.description}} .</p>
+
+                            <p class="card-text"> <strong>Precio:</strong> {{caballo.price | currency}} .</p>
+                            <p class="card-text"> <strong>Para mas informacion, comunicate con nosotros al numero +57
+                                    3117077455</strong></p>
+
+                        </div>
+                    </div>
+                </div>
+                }
+            </div>
+        </div>
+    
 </div>

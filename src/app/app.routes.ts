@@ -8,6 +8,8 @@ import { RegisterComponent } from './pages/register/register.component';
 import { AdminComponent } from './pages/admin/admin.component';
 import { HorseAdminComponent } from './pages/admin/horse-admin/horse-admin.component';
 import { ProductAdminComponent } from './pages/admin/product-admin/product-admin.component';
+import { ServiceeAdminComponent } from './pages/admin/servicee-admin/servicee-admin.component';
+import { adminGuard } from './admin.guard';
 
 export const routes: Routes = [
 
@@ -18,9 +20,10 @@ export const routes: Routes = [
     { path:'services/v1', component: ProductsComponent},
     { path: 'user/auth/login', component: LoginComponent},
     { path: 'user/auth/register', component: RegisterComponent},
-    { path: 'admin', component: AdminComponent, children: [
+    { path: 'admin', component: AdminComponent, canActivate:[adminGuard], children: [
         { path: 'horse/v1', component: HorseAdminComponent },
         { path: 'product/v1', component: ProductAdminComponent },
+        { path: 'services/v1', component:  ServiceeAdminComponent},
         { path: 'event/v1', component: HorseAdminComponent }
       ]},
     { path: '**', redirectTo: '', pathMatch: 'full'}

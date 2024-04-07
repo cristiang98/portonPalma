@@ -81,6 +81,10 @@
             <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button>
             
             <div class="dropdown-content">
+              @if (rol === 'ADMIN') {
+                
+                <a class="dropdown-item" routerLink="/admin"> {{rol}} </a>
+              }
               <a class="dropdown-item" routerLink="/edit-profile">Editar perfil</a>
               <a class="dropdown-item" href="#" (click)="logout()">Salir</a>
             </div>

@@ -22,15 +22,15 @@ export class AppComponent implements OnInit{
   showNavbar: boolean = true;
   private _adminService = inject(AdminService);
   private _loginService = inject(LoginService);
-  private _userService = inject(UserServiceService);
   currentUser: User | null = null;
   name: string = '';
+  rol: string = '';
 
   constructor(private router: Router) {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         // Determina si el navbar debe mostrarse según la ruta actual
-        this.showNavbar = !['/admin', '/admin/horse/v1', '/admin/product/v1', '/admin/event/v1'].includes(event.url);
+        this.showNavbar = !['/admin', '/admin/horse/v1', '/admin/product/v1', '/admin/event/v1', '/admin/services/v1'].includes(event.url);
       }
     });
 
@@ -39,6 +39,7 @@ export class AppComponent implements OnInit{
       this.currentUser = user;
       if (user) {
         this.name = user.sub;
+        this.rol = user.role;
       }
       else {
         this.currentUser = null;
@@ -52,8 +53,15 @@ export class AppComponent implements OnInit{
 
 
   logout() {
-    this._loginService.logout();
-    this.router.navigate(['/home']);
+    this._loginService.logout().subscribe(() => {
+      // Limpiar los datos del usuario
+      this.currentUser = null;
+      this.name = '';
+      this.rol = '';
+  
+      // Navegar al home
+      this.router.navigate(['/home']);
+    });
   }
 
 
