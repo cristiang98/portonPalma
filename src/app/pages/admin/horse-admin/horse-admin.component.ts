@@ -6,11 +6,14 @@ import { ApiHorsesService } from '../../../services/horses/api-horses.service';
 import { FormsModule, NgForm } from '@angular/forms';
 import { LoginService } from '../../../services/login/login.service';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { CustomCurrencyPipe } from '../../../pipe/custom-currency.pipe';
+import { CustomCapitalizePipe } from '../../../pipe/custom-capitalize.pipe';
+import { CustomFirstLetterUppercasePipe } from '../../../pipe/custom-first-letter-uppercase.pipe';
 
 @Component({
   selector: 'app-horse-admin',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, CustomCurrencyPipe, CustomCapitalizePipe, CustomFirstLetterUppercasePipe],
   templateUrl: './horse-admin.component.html',
   styleUrl: './horse-admin.component.css'
 })
@@ -159,8 +162,6 @@ export class HorseAdminComponent implements OnInit, OnDestroy {
     }
   }
 
-  scrollTo(element: HTMLElement) {
-    element.scrollIntoView({behavior: "smooth"});
-  }
+
 
 }

@@ -21,9 +21,9 @@
                 <tbody>
                     <tr>
                         <td> {{horse.idHorse}} </td>
-                        <td>{{horse.breed }}</td>
-                        <td>{{horse.description}}</td>
-                        <td>{{horse.price}}</td>
+                        <td>{{horse.breed | customCapitalize}}</td>
+                        <td>{{horse.description | customFirstLetterUppercase}}</td>
+                        <td>{{horse.price | customCurrency}}</td>
                         <td>{{horse.bornOn}}</td>
                         <td><img style="height: 50px; width: 50px;" [src]="horse.imagePath" alt="{{horse.breed}}"></td>
                         <td><a (click)="deleteHorse(horse.idHorse)" class="btn btn-primary">Eliminar</a>
@@ -81,15 +81,12 @@
 
     <div class="update">
         <h1>Actualizar caballo</h1>
-        <div class="input-group mb-3">
+        <div class="input-group mb-3 divBuscar" >
             <label for="update-horse-select" class="form-label">Selecciona un caballo</label>
-            <select id="update-horse-select" [(ngModel)]="selectedHorseId" name="selectedHorseId" class="form-control"
-                (change)="onHorseSelectChange()">
-                <option *ngFor="let horse of horses" [value]="horse.idHorse" (click)="selectHorse(horse)">
-                    {{horse.idHorse}}</option>
-            </select>
+            <input type="text" id="update-horse-input" [(ngModel)]="selectedHorseId" name="selectedHorseId" class="form-control mb-3 inputBuscar"
+            (change)="onHorseSelectChange()">
         </div>
-
+        
 
         <div *ngIf="horseById">
 
@@ -98,6 +95,8 @@
                     <span class="input-group-text" id="update-breed-addon">Raza</span>
                     <input type="text" id="update-breed" [(ngModel)]="horseById.breed" name="breed" class="form-control"
                         placeholder="Raza del caballo" aria-label="Raza" aria-describedby="update-breed-addon" required>
+
+                    
                 </div>
 
                 <div class="input-group">
@@ -108,18 +107,17 @@
                 </div>
 
                 <div class="input-group mb-3">
-                    <span class="input-group-text" id="update-price-addon">$</span>
+                    <span class="input-group-text" id="update-price-addon">Precio</span>
                     <input type="number" id="update-price" [(ngModel)]="horseById.price" name="price"
                         class="form-control" placeholder="Precio" aria-label="Precio"
                         aria-describedby="update-price-addon" required>
-                    <span class="input-group-text">.00</span>
                 </div>
 
-                <div class="input-group mb-3">
+                <div class="input-group mb-3 " >
                     <span class="input-group-text" id="update-bornOn-addon">Fecha de Nacimiento</span>
                     <input type="date" id="update-bornOn" [(ngModel)]="horseById.bornOn" name="bornOn"
                         class="form-control" aria-label="Fecha de nacimiento" aria-describedby="update-bornOn-addon"
-                        required>
+                        required disabled>
                 </div>
 
                 <div class="mb-3">

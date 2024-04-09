@@ -100,11 +100,19 @@ export class LoginService {
       return this.nameJwt;
     }
 
-    getRole(): string {
-      return this.currentUserValue.role;
+    getRole(): string | null {
+      const token = this.getToken();
+      if (!token) {
+        return null;
+      }
+      const decodedToken = this._jwtDecoder.decode(token);
+      return decodedToken ? decodedToken.role : null;
     }
 
-    getToken(): string {
+    getToken(): string | null {
+      if (!this.currentUserValue) {
+        return null;
+      }
       console.log('Retrieved token: 3', this.currentUserValue.token);
       return this.currentUserValue.token;
     }
