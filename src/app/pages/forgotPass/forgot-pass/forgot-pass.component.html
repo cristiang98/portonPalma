@@ -1,0 +1,24 @@
+<div class="container-fluid">
+    <div class="row">
+        <h1>Recuperación de Contraseña</h1>
+        <form class="formContainer" [formGroup]="recoverForm" (ngSubmit)="submitRecover($event)">
+            <div class="row justify-content-center">
+                <div class="col-3">
+                    <label for="correoRecuperacion">*Correo Electrónico: </label>
+                    <input id="correoRecuperacion" type="text" class="form-control" placeholder="Correo Electrónico:"
+                        aria-label="*Correo Electronico:" formControlName="emailRecover"
+                        [ngClass]="{'is-invalid': hasErrors('emailRecover', 'required') || hasErrors('emailRecover', 'email')}">
+                    <div *ngIf="hasErrors('emailRecover', 'required')" class="text-danger">El Correo electrónico es requerido
+                    </div>
+                </div>
+                <div class="col-3">
+                    <label for="cedulaRecuperacion">*Cédula: </label>
+                    <input id="cedulaRecuperacion" type="text" class="form-control" placeholder="Cédula" aria-label="Cedula"
+                        formControlName="dniRecover" [ngClass]="{'is-invalid': hasErrors('dniRecover', 'required')}">
+                    <div *ngIf="hasErrors('dniRecover', 'required')" class="text-danger">La cédula es requerida</div>
+                </div>
+            </div>
+            <button type="submit" [disabled]="!recoverForm.valid">Recuperar Contraseña</button>
+        </form>
+    </div>
+</div>

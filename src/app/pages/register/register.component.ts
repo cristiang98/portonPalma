@@ -59,12 +59,16 @@ export class RegisterComponent implements OnInit {
         email: formValues.email,
         dni: formValues.dni,
         cellphone: formValues.cellphone,
-        address: `${formValues.country} ${formValues.department} ${formValues.city}`, // Aquí puedes concatenar los valores de dirección, ciudad, departamento y país
+        address: `${formValues.country} ${formValues.department} ${formValues.city} ${formValues.address}`, // Aquí puedes concatenar los valores de dirección, ciudad, departamento y país
         password: formValues.password
       };
       this._httpCountry.registerUser(user).subscribe(
         (data) => {
           console.log('Usuario registrado con éxito', data);
+          this.registerForm.reset();
+          this.registerForm.get('country')?.setValue("default");
+          this.registerForm.get('department')?.setValue("default");
+          
           // Aquí puedes hacer lo que quieras con los datos devueltos por tu API
         },
         (error) => {
@@ -80,25 +84,29 @@ export class RegisterComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     this._httpCountry.getCountries().subscribe((data: any) => {
       this.country = data;
+      // Habilitar el campo 'country'
+      this.registerForm.get('country')?.enable();
       this.getDepartment();
-      this.getCities();
     });
 
-
+    this.getDepartment();
   }
 
   getDepartment() {
     this._httpCountry.getDepartments().subscribe((data: any) => {
       this.department = data;
+      // Habilitar el campo 'department' y establecer su valor
+      this.registerForm.get('department')?.enable();
+      this.getCities();
     });
   }
 
   getCities() {
     this._httpCountry.getCities().subscribe((data: any[]) => {
       this.city = this.sort(data, 'name');
+      
     });
   }
 

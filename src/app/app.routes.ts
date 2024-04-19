@@ -10,6 +10,7 @@ import { HorseAdminComponent } from './pages/admin/horse-admin/horse-admin.compo
 import { ProductAdminComponent } from './pages/admin/product-admin/product-admin.component';
 import { ServiceeAdminComponent } from './pages/admin/servicee-admin/servicee-admin.component';
 import { adminGuard } from './admin.guard';
+import { ForgotPassComponent } from './pages/forgotPass/forgot-pass/forgot-pass.component';
 
 export const routes: Routes = [
 
@@ -20,6 +21,7 @@ export const routes: Routes = [
     { path:'services/v1', component: ProductsComponent},
     { path: 'user/auth/login', component: LoginComponent},
     { path: 'user/auth/register', component: RegisterComponent},
+    { path: 'forgot-password', component: ForgotPassComponent},
     { path: 'admin', component: AdminComponent, canActivate:[adminGuard], children: [
         { path: 'horse/v1', component: HorseAdminComponent },
         { path: 'product/v1', component: ProductAdminComponent },

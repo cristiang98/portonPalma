@@ -71,13 +71,11 @@ export class LoginService {
             // Agrega aquí cualquier otro claim que necesites
           };
           this.nameJwt = user.sub;
-          console.log(token);
           // Almacena los claims del usuario en la cookie
           this._cookieService.set('token', JSON.stringify(user));
           // Almacena la fecha de expiración en la cookie
           this._cookieService.set('expires_at', JSON.stringify(decodedToken.exp));
           this.currentUserSubject.next(user);
-          console.log(token+" prueba 2")
 
           
         }
@@ -113,7 +111,6 @@ export class LoginService {
       if (!this.currentUserValue) {
         return null;
       }
-      console.log('Retrieved token: 3', this.currentUserValue.token);
       return this.currentUserValue.token;
     }
 

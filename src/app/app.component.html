@@ -72,7 +72,8 @@
               <a class="dropdown-item" routerLink="user/auth/register"
                 [ngClass]="{active:menuOption === 'user/auth/register'}" (click)="onOption('user/auth/register')">¿Eres
                 nuevo? Regístrate</a>
-              <a class="dropdown-item" href="#">¿Olvidaste tu Contraseña?</a>
+              <a class="dropdown-item" routerLink="forgot-password" [ngClass]="{active:menuOption === 'forgot-password'}"
+               (click)="onOption('forgot-password')">¿Olvidaste tu Contraseña?</a>
             </div>
           </ng-container>
         

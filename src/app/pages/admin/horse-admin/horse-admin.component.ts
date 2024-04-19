@@ -37,10 +37,8 @@ export class HorseAdminComponent implements OnInit, OnDestroy {
   selectedHorseId: number = 0;
 
   constructor() { }
-  private _router = inject(Router);
   private _horseService = inject(ApiHorsesService);
   private _loginService = inject(LoginService);
-  private _cdr = inject(ChangeDetectorRef);
 
   getHorses() {
     this._horseService.getHorses().subscribe(horses => {
@@ -90,7 +88,6 @@ export class HorseAdminComponent implements OnInit, OnDestroy {
     if (form.valid && this.selectedFile) {
       // Obtiene el rol del usuario
       const userRole = this._loginService.getRole();
-      console.log('userRole:', userRole);
       // Verifica si el rol del usuario es 'ADMIN'
       if (userRole === 'ADMIN') {
         // Verifica si el token ha expirado
@@ -140,6 +137,7 @@ export class HorseAdminComponent implements OnInit, OnDestroy {
         this._horseService.putHorse(this.selectedHorseId, this.horseById, this.selectedFile).subscribe(
           response => {
             console.log('Horse updated successfully');
+            form.reset();
             // Handle successful response
           },
           error => {
