@@ -80,6 +80,11 @@ export class ProductAdminComponent implements OnInit, OnDestroy{
   
           this.selectedFile = new File([blob], filename, {type: 'image/jpeg'});
           this.previewUrl = URL.createObjectURL(this.selectedFile);
+          this.productById = product;
+          if (product.idProduct === undefined) {
+            throw new Error('product.idProduct is undefined');
+          }
+          this.selectedProductId = product.idProduct;
         })
         .catch(error => console.error('Error:', error));
     }
@@ -137,7 +142,7 @@ export class ProductAdminComponent implements OnInit, OnDestroy{
       } else {
         this._productService.putProduct(this.selectedProductId, this.productById, this.selectedFile).subscribe(
           response => {
-            console.log('Horse updated successfully');
+            console.log('Product updated successfully');
             form.reset();
             // Handle successful response
           },
@@ -150,15 +155,20 @@ export class ProductAdminComponent implements OnInit, OnDestroy{
     }
   }
 
-  onProductSelectChange() {
-    const selectedProductId = Number(this.selectedProductId);
-    const selectedProduct = this.products.find(product => product.idProduct === selectedProductId);
+onProductSelectChange() {
+  console.log('selectedProductId:', this.selectedProductId); // Verificar el valor de selectedProductId
 
-    if (selectedProduct) {
-        this.productById = selectedProduct;
-    } else {
-        alert("Producto no existe");
-    }
+  const selectedProductId = Number(this.selectedProductId);
+  const selectedProduct = this.products.find(product => {
+    console.log('product.idProduct:', product.idProduct); // Verificar el valor de idProduct para cada producto
+    return product.idProduct === selectedProductId;
+  });
+
+  if (selectedProduct) {
+    this.productById = selectedProduct;
+  } else {
+    alert("Producto no existe");
+  }
 }
 
 }
