@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { IProduct } from '../../models/product/product.model';
-import { Observable } from 'rxjs';
+import { Observable, Subject, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +11,11 @@ export class ApiProductsService {
   urlBase: string = 'http://localhost:443/product/v1';
 
   private _httpProduct = inject(HttpClient);
+  private productsUpdated = new Subject<IProduct[]>();
+
+  getProductsUpdateListener() {
+    return this.productsUpdated.asObservable();
+  }
 
   getProducts() : Observable<IProduct[]>{ 
     return this._httpProduct.get<IProduct[]>(this.urlBase);
@@ -66,7 +71,13 @@ export class ApiProductsService {
   
 
   
-    return this._httpProduct.put(`${this.urlBase}/put/${id}`, formData , {withCredentials: true});
+    return this._httpProduct.put(`${this.urlBase}/put/${id}`, formData , {withCredentials: true}).pipe(
+      tap(() => {
+        this.getProducts().subscribe((products: IProduct[]) => {
+          this.productsUpdated.next(products);
+        });
+      })
+    );
     
   }
 

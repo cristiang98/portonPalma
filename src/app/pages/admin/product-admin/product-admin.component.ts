@@ -7,6 +7,8 @@ import { CommonModule, NgClass } from '@angular/common';
 import { Category, IProduct } from '../../../models/product/product.model';
 import { LoginService } from '../../../services/login/login.service';
 import { ApiProductsService } from '../../../services/products/api-products.service';
+import { Subscription } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-product-admin',
@@ -34,17 +36,27 @@ export class ProductAdminComponent implements OnInit, OnDestroy{
   selectedFile: File | null = null;
   previewUrl: string | ArrayBuffer | null = null;
   selectedProductId: number = 0;
+  private productsSub: Subscription | null = null;
 
   private _loginService = inject(LoginService);
   private _productService = inject(ApiProductsService);
+  private _snackBar = inject(MatSnackBar);
 
   constructor() { }
 
   ngOnInit() {
     this.getProducts();
+
+    // Suscribirse a los cambios en la lista de productos
+    this.productsSub = this._productService.getProductsUpdateListener().subscribe((products: IProduct[]) => {
+      this.products = products;
+    });
+
+    
   }
 
-  ngOnDestroy(): void {
+  ngOnDestroy() {
+    this.productsSub?.unsubscribe();
   }
 
   getProducts() {
@@ -103,11 +115,27 @@ export class ProductAdminComponent implements OnInit, OnDestroy{
           console.log('El token no ha expirado');
           this._productService.addProduct( this.selectedFile,this.newProduct).subscribe(() => {
             this.getProducts(); // Actualiza la lista de caballos
+
+            // Muestra un mensaje de confirmación
+            this._snackBar.open('Producto agregado', 'Cerrar', {
+              duration: 3000,
+              verticalPosition: 'top',
+              panelClass: 'my-snackbar',
+            });
+
             form.reset(); // Limpia el formulario
             this.selectedFile = null; // Limpia el archivo seleccionado
           });
         }
       } else {
+        // Muestra un mensaje de error
+
+        this._snackBar.open('El usuario no está autorizado para agregar un producto', 'Cerrar', {
+          duration: 5000,
+          verticalPosition: 'top',
+          panelClass: 'my-snackbar',
+        });
+
         console.log('El usuario no está autorizado para agregar un producto');
       }
     }
@@ -124,8 +152,22 @@ export class ProductAdminComponent implements OnInit, OnDestroy{
         error: (error) => {
           if (error.status === 200) {
             // Si el estado de la respuesta es 200, asumir que la eliminación fue exitosa
+
+            this._snackBar.open('Producto eliminado', 'Cerrar', {
+              duration: 5000,
+              verticalPosition: 'top',
+              panelClass: 'my-snackbar',
+            });
+
             this.getProducts();
           } else {
+
+            this._snackBar.open('Error al eliminar el producto', 'Cerrar', {
+              duration: 5000,
+              verticalPosition: 'top',
+              panelClass: 'my-snackbar',
+            });
+
             // Manejar otros errores aquí
             console.error(error);
           }
@@ -143,10 +185,24 @@ export class ProductAdminComponent implements OnInit, OnDestroy{
         this._productService.putProduct(this.selectedProductId, this.productById, this.selectedFile).subscribe(
           response => {
             console.log('Product updated successfully');
+
+            this._snackBar.open('Producto actualizado', 'Cerrar', {
+              duration: 5000,
+              verticalPosition: 'top',
+              panelClass: 'my-snackbar',
+            });
+
             form.reset();
             // Handle successful response
           },
           error => {
+
+            this._snackBar.open('Error al actualizar el producto', 'Cerrar', {
+              duration: 5000,
+              verticalPosition: 'top',
+              panelClass: 'my-snackbar',
+            });
+
             console.log('Error updating horse:', error);
             // Handle error
           }
@@ -155,7 +211,7 @@ export class ProductAdminComponent implements OnInit, OnDestroy{
     }
   }
 
-onProductSelectChange() {
+  onProductSelectChange() {
   console.log('selectedProductId:', this.selectedProductId); // Verificar el valor de selectedProductId
 
   const selectedProductId = Number(this.selectedProductId);
@@ -169,6 +225,6 @@ onProductSelectChange() {
   } else {
     alert("Producto no existe");
   }
-}
+  }
 
 }

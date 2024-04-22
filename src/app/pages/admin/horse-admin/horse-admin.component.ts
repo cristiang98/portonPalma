@@ -9,6 +9,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { CustomCurrencyPipe } from '../../../pipe/custom-currency.pipe';
 import { CustomCapitalizePipe } from '../../../pipe/custom-capitalize.pipe';
 import { CustomFirstLetterUppercasePipe } from '../../../pipe/custom-first-letter-uppercase.pipe';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-horse-admin',
@@ -39,6 +40,7 @@ export class HorseAdminComponent implements OnInit, OnDestroy {
   constructor() { }
   private _horseService = inject(ApiHorsesService);
   private _loginService = inject(LoginService);
+  private _snackBar = inject(MatSnackBar);
 
   getHorses() {
     this._horseService.getHorses().subscribe(horses => {
@@ -98,10 +100,20 @@ export class HorseAdminComponent implements OnInit, OnDestroy {
           this._horseService.addHorse(this.newHorse, this.selectedFile).subscribe(() => {
             this.getHorses(); // Actualiza la lista de caballos
             form.reset(); // Limpia el formulario
+            this._snackBar.open('Caballo agregado exitosamente', 'Cerrar', {
+              duration: 5000,
+              verticalPosition: 'top',
+              panelClass: 'my-snackbar',
+            });
             this.selectedFile = null; // Limpia el archivo seleccionado
           });
         }
       } else {
+        this. _snackBar.open('El usuario no está autorizado para agregar un caballo', 'Cerrar', {
+          duration: 5000,
+          verticalPosition: 'top',
+          panelClass: 'my-snackbar',
+        });
         console.log('El usuario no está autorizado para agregar un caballo');
       }
     }
@@ -112,6 +124,11 @@ export class HorseAdminComponent implements OnInit, OnDestroy {
     if (idHorse !== undefined) {
       this._horseService.deleteHorse(idHorse).subscribe({
         next: () => {
+          this._snackBar.open('Caballo eliminado exitosamente', 'Cerrar', {
+            duration: 5000,
+            verticalPosition: 'top',
+            panelClass: 'my-snackbar',
+          });
           // Actualizar la lista de caballos después de eliminar un caballo
           this.getHorses();
         },
@@ -137,10 +154,24 @@ export class HorseAdminComponent implements OnInit, OnDestroy {
         this._horseService.putHorse(this.selectedHorseId, this.horseById, this.selectedFile).subscribe(
           response => {
             console.log('Horse updated successfully');
+
+            this._snackBar.open('Caballo actualizado exitosamente', 'Cerrar', {
+              duration: 5000,
+              verticalPosition: 'top',
+              panelClass: 'my-snackbar',
+            });
+
             form.reset();
             // Handle successful response
           },
           error => {
+
+            this._snackBar.open('Error al actualizar el caballo', 'Cerrar', {
+              duration: 5000,
+              verticalPosition: 'top',
+              panelClass: 'my-snackbar',
+            });
+
             console.log('Error updating horse:', error);
             // Handle error
           }
