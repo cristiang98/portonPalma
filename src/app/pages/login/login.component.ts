@@ -3,7 +3,6 @@ import { LoginService } from '../../services/login/login.service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { UserServiceService } from '../../services/userService/user-service.service';
 import { catchError, of, tap } from 'rxjs';
 import { JwtDecoderService } from '../../services/jwt_decoder/jwt-decoder.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
@@ -21,7 +20,6 @@ export class LoginComponent {
 
   private _loginService = inject(LoginService);
   private _router = inject(Router);
-  private _userService = inject(UserServiceService);
   private _jwtDecoder = inject(JwtDecoderService);
   private _snackBar = inject(MatSnackBar);
 

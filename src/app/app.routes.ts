@@ -11,6 +11,7 @@ import { ProductAdminComponent } from './pages/admin/product-admin/product-admin
 import { ServiceeAdminComponent } from './pages/admin/servicee-admin/servicee-admin.component';
 import { adminGuard } from './admin.guard';
 import { ForgotPassComponent } from './pages/forgotPass/forgot-pass/forgot-pass.component';
+import { ServiceeComponent } from './pages/servicee/servicee.component';
 
 export const routes: Routes = [
 
@@ -18,7 +19,7 @@ export const routes: Routes = [
     { path: 'about-us',component: AboutUsComponent },
     { path: 'horse/v1', component: HorseComponent },
     { path:'product/v1', component: ProductsComponent},
-    { path:'services/v1', component: ProductsComponent},
+    { path:'services/v1', component: ServiceeComponent},
     { path: 'user/auth/login', component: LoginComponent},
     { path: 'user/auth/register', component: RegisterComponent},
     { path: 'forgot-password', component: ForgotPassComponent},

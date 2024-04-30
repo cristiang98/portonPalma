@@ -5,7 +5,6 @@ import { AdminService } from './services/admin/admin.service';
 import { LoginComponent } from './pages/login/login.component';
 import { UserLoginRequest } from './models/user/user.model';
 import { LoginService } from './services/login/login.service';
-import { UserServiceService } from './services/userService/user-service.service';
 import { User } from './models/userPrueba/userPrueba.model';
 
 @Component({

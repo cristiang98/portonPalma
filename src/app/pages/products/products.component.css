@@ -2,6 +2,11 @@
     margin-top: 40px;
 }
 
+h1 {
+    text-align: center;
+    margin-top: 150px;
+}
+
 
 .card {
     margin-bottom: 50px;
@@ -36,7 +41,7 @@ p.description {
     /* Mueve el dropdown 50px a la derecha */
     /* right: 50px;  Mueve el dropdown 50px a la izquierda */
     display: inline-block;
-    margin-top: 200px;
+    margin-top: 30px;
     background-color: #EBE3D5;
 }
 

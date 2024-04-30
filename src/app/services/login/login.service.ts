@@ -17,7 +17,7 @@ export class LoginService {
   public currentUser: Observable<any>;
 
   // api personalities localhost:443/user/auth/
-  private _httpLogin= inject(HttpClient);
+  private _httpLogin = inject(HttpClient);
   urlBase: string = 'http://localhost:443/user/auth'
 
   private _jwtDecoder = inject(JwtDecoderService);
@@ -37,7 +37,7 @@ export class LoginService {
   }
 
   loginUser(user: UserLoginRequest): Observable<any> {
-    return this._httpLogin.post<any>(`${this.urlBase}/login`, user, { observe: 'response', responseType: 'text' as 'json' , withCredentials: true})
+    return this._httpLogin.post<any>(`${this.urlBase}/login`, user, { observe: 'response', responseType: 'text' as 'json', withCredentials: true })
       .pipe(map(response => {
         let token: string | null = null;
         const setCookieHeader = response.headers.get('Set-Cookie');
@@ -77,7 +77,7 @@ export class LoginService {
           this._cookieService.set('expires_at', JSON.stringify(decodedToken.exp));
           this.currentUserSubject.next(user);
 
-          
+
         }
 
         return response;
@@ -94,44 +94,44 @@ export class LoginService {
       }));
   }
 
-    getName(): string {
-      return this.nameJwt;
+  getName(): string {
+    return this.nameJwt;
+  }
+
+  getRole(): string | null {
+    const token = this.getToken();
+    if (!token) {
+      return null;
     }
+    const decodedToken = this._jwtDecoder.decode(token);
+    return decodedToken ? decodedToken.role : null;
+  }
 
-    getRole(): string | null {
-      const token = this.getToken();
-      if (!token) {
-        return null;
-      }
-      const decodedToken = this._jwtDecoder.decode(token);
-      return decodedToken ? decodedToken.role : null;
+  getToken(): string | null {
+    if (!this.currentUserValue) {
+      return null;
     }
+    return this.currentUserValue.token;
+  }
 
-    getToken(): string | null {
-      if (!this.currentUserValue) {
-        return null;
-      }
-      return this.currentUserValue.token;
+  isTokenExpired(): boolean {
+    const token = this.getToken(); // Obtén el token de donde lo estás almacenando
+    if (!token) {
+      return true;
     }
+    return this._jwtHelper.isTokenExpired(token);
+  }
 
 
-    
-
-    isTokenExpired(): boolean {
-      const token = this.getToken(); // Obtén el token de donde lo estás almacenando
-      if (!token) {
-        return true;
-      }
-      return this._jwtHelper.isTokenExpired(token);
+  isAdmin(): boolean {
+    if (this.getRole() === 'ADMIN') {
+      return true;
     }
+    return false;
+  }
 
-
-    isAdmin(): boolean {
-      if(this.getRole()==='ADMIN'){
-        return true;
-      }
-      return false;
-    }
-
+  forgotPassword(emailRequest: {email: string}): Observable<any> {
+    return this._httpLogin.post<any>(`${this.urlBase}/forgot-password`, emailRequest, { withCredentials: true });
+  }
 
 }
