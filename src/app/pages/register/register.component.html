@@ -50,8 +50,35 @@
             </div>
 
             <div class="row justify-content-center">
+                
 
 
+                <div class="col-3">
+                    <label for="">*Contraseña: </label>
+                    <input type="text" class="form-control" placeholder="Contraseña" aria-label="Contraseña"
+                        formControlName="password"
+                        [ngClass]="{'is-invalid': hasErrors('password', 'required') || hasErrors('password', 'minlength')}">
+                    <div *ngIf="hasErrors('password', 'required')" class="text-danger">La contraseña es requerida</div>
+                    <div *ngIf="hasErrors('password', 'minlength')" class="text-danger">La contraseña debe tener minimo
+                        6 caracteres</div>
+                </div>
+
+                <div class="col-3">
+                    <label for="">*Confirmar Contraseña: </label>
+                    <input type="text" class="form-control" placeholder="Confirmar Contraseña" aria-label="Contraseña"
+                        formControlName="confirmPassword" [ngClass]="{'is-invalid': hasErrors('password', 'required')}">
+                    <div *ngIf="hasErrors('confirmPassword', 'required')" class="text-danger">La confirmación de la
+                        contraseña es requerida
+                    </div>
+                    <div *ngIf="registerForm.hasError('notSame')" class="text-danger">Las contraseñas no coinciden</div>
+                </div>
+
+
+            </div>
+
+
+
+            <div class="row justify-content-center">
 
                 <div class="col-2">
                     <label for="country">*País: </label>
@@ -92,35 +119,71 @@
 
             </div>
             <div class="row justify-content-center">
+     
+                <div class="col-3">
+                    <label for="streetType1">*Tipo de vía: </label>
+                    <input id="streetType1" type="text" class="form-control" placeholder="Tipo de vía" aria-label="Tipo de vía"
+                        formControlName="streetType1" [ngClass]="{'is-invalid': hasErrors('streetType1', 'required')}">
+                    <div *ngIf="hasErrors('streetType1', 'required')" class="text-danger">El tipo de vía es requerido</div>
+                </div>
+            
+                <div class="col-3">
+                    <label for="streetNumber1">*Número de la vía: </label>
+                    <input id="streetNumber1" type="text" class="form-control" placeholder="Número de la vía" aria-label="Número de la vía"
+                        formControlName="streetNumber1" [ngClass]="{'is-invalid': hasErrors('streetNumber1', 'required')}">
+                    <div *ngIf="hasErrors('streetNumber1', 'required')" class="text-danger">El número de la calle es requerido</div>
+                </div>
+            
+
+            
+
+            </div>
+
+            <div class="row justify-content-center">
 
                 <div class="col-2">
-                    <label for="">*Dirección: </label>
-                    <input type="text" class="form-control" placeholder="Dirección" aria-label="Dirección"
-                        formControlName="address" [ngClass]="{'is-invalid': hasErrors('address', 'required')}">
-                    <div *ngIf="hasErrors('address', 'required')" class="text-danger">La Dirección es requerida</div>
-                </div>
-                <div class="col-2">
-                    <label for="">*Contraseña: </label>
-                    <input type="text" class="form-control" placeholder="Contraseña" aria-label="Contraseña"
-                        formControlName="password"
-                        [ngClass]="{'is-invalid': hasErrors('password', 'required') || hasErrors('password', 'minlength')}">
-                    <div *ngIf="hasErrors('password', 'required')" class="text-danger">La contraseña es requerida</div>
-                    <div *ngIf="hasErrors('password', 'minlength')" class="text-danger">La contraseña debe tener minimo
-                        6 caracteres</div>
+                    <label for="streetType2">*Tipo de vía: </label>
+                    <input id="streetType2" type="text" class="form-control" placeholder="Número del apartamento" aria-label="Número del apartamento"
+                        formControlName="streetType2" [ngClass]="{'is-invalid': hasErrors('streetType2', 'required')}">
+                    <div *ngIf="hasErrors('streetType2', 'required')" class="text-danger">tipo de vía obligatorio</div>
                 </div>
 
                 <div class="col-2">
-                    <label for="">*Confirmar Contraseña: </label>
-                    <input type="text" class="form-control" placeholder="Confirmar Contraseña" aria-label="Contraseña"
-                        formControlName="confirmPassword" [ngClass]="{'is-invalid': hasErrors('password', 'required')}">
-                    <div *ngIf="hasErrors('confirmPassword', 'required')" class="text-danger">La confirmación de la
-                        contraseña es requerida
-                    </div>
-                    <div *ngIf="registerForm.hasError('notSame')" class="text-danger">Las contraseñas no coinciden</div>
+                    <label for="streetNumber2">*Número de la via: </label>
+                    <input id="streetNumber2" type="text" class="form-control" placeholder="Número del apartamento" aria-label="Número del apartamento"
+                        formControlName="streetNumber2" [ngClass]="{'is-invalid': hasErrors('streetNumber2', 'required')}">
+                    <div *ngIf="hasErrors('streetNumber2', 'required')" class="text-danger">El número de la vía es requerido</div>
                 </div>
+
+                <div class="col-2">
+                    <label for="localAptoNumber">*Número de la casa: </label>
+                    <input id="localAptoNumber" type="text" class="form-control" placeholder="Número del apartamento" aria-label="Número del apartamento"
+                        formControlName="localAptoNumber" [ngClass]="{'is-invalid': hasErrors('localAptoNumber', 'required')}">
+                    <div *ngIf="hasErrors('localAptoNumber', 'required')" class="text-danger">El número del apartamento es requerido</div>
+                </div>
+
 
 
             </div>
+
+            <div class="row justify-content-center">
+
+                <div class="col-3">
+                    <label for="apto">apartamento: </label>
+                    <input id="apto" type="text" class="form-control" placeholder="Número del apartamento" aria-label="Número del apartamento"
+                        formControlName="apto" >
+                </div>
+
+
+                <div class="col-3">
+                    <label for="postalCode">*Código postal: </label>
+                    <input id="postalCode" type="text" class="form-control" placeholder="Código postal" aria-label="Código postal"
+                        formControlName="postalCode" [ngClass]="{'is-invalid': hasErrors('postalCode', 'required')}">
+                    <div *ngIf="hasErrors('postalCode', 'required')" class="text-danger">El código postal es requerido</div>
+                </div>
+                 
+            </div>
+
 
 
             <button type="submit" [disabled]="!registerForm.valid">Registrar</button>

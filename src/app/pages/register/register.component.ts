@@ -33,7 +33,13 @@ export class RegisterComponent implements OnInit {
       country: [{ value: '', disabled: true }, Validators.required],
       department: [{ value: '', disabled: true }, Validators.required],
       city: ['', Validators.required],
-      address: ['', Validators.required],
+      streetType1: ['', Validators.required],
+      streetNumber1: ['', Validators.required],
+      streetType2: ['', Validators.required],
+      streetNumber2: ['', Validators.required],
+      localAptoNumber: ['', Validators.required],
+      apto: [''],
+      postalCode: ['', Validators.required],
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', Validators.required]
     }, { validator: this.checkPasswords });
@@ -59,7 +65,12 @@ export class RegisterComponent implements OnInit {
         email: formValues.email,
         dni: formValues.dni,
         cellphone: formValues.cellphone,
-        address: `${formValues.country} ${formValues.department} ${formValues.city} ${formValues.address}`, // Aquí puedes concatenar los valores de dirección, ciudad, departamento y país
+        region:` ${formValues.country} ${formValues.department}`,
+        city: formValues.city,
+        streetType: `${formValues.streetType1} `,
+        streetNumber: `${formValues.streetNumber1}`,
+        localAptoNumber: `${formValues.streetType2} ${formValues.streetNumber2} ${formValues.localAptoNumber} ${formValues.apto}`,
+        postalCode: formValues.postalCode, 
         password: formValues.password
       };
       this._httpCountry.registerUser(user).subscribe(
