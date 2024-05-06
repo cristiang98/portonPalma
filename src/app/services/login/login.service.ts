@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
@@ -133,5 +133,19 @@ export class LoginService {
   forgotPassword(emailRequest: {email: string}): Observable<any> {
     return this._httpLogin.post<any>(`${this.urlBase}/forgot-password`, emailRequest, { withCredentials: true });
   }
+
+  resetPassword(token: string, newPasswordRequest: {newPassword: string}): Observable<any> {
+    const httpOptions = {
+        params: new HttpParams().set('token', token),
+        withCredentials: true
+    };
+    return this._httpLogin.put<any>(`${this.urlBase}/reset-password`, newPasswordRequest, httpOptions);
+}
+
+resetPassword1(token: string, newPasswordRequest: any): Observable<any> {
+  const headers = { 'content-type': 'application/json'}  
+  const body = JSON.stringify(newPasswordRequest);
+  return this._httpLogin.put(this.urlBase + '/reset-password?token=' + token, body, {'headers':headers});
+}
 
 }

@@ -13,7 +13,7 @@ import { LoginService } from '../../../services/login/login.service';
 })
 export class ForgotPassComponent implements OnInit {
 
-  recoverForm!: FormGroup;
+  recoverForm!: FormGroup; // se coloca ! para indicar que se inicializará en el ngOnInit y no será null en el constructor o en la declaración de la variable en la clase 
   private _httpLogin = inject(HttpClient);
   private _loginService = inject(LoginService);
 

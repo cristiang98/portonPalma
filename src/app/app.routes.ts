@@ -12,6 +12,7 @@ import { ServiceeAdminComponent } from './pages/admin/servicee-admin/servicee-ad
 import { adminGuard } from './admin.guard';
 import { ForgotPassComponent } from './pages/forgotPass/forgot-pass/forgot-pass.component';
 import { ServiceeComponent } from './pages/servicee/servicee.component';
+import { ResetPassComponent } from './pages/reset-pass/reset-pass.component';
 
 export const routes: Routes = [
 
@@ -23,6 +24,7 @@ export const routes: Routes = [
     { path: 'user/auth/login', component: LoginComponent},
     { path: 'user/auth/register', component: RegisterComponent},
     { path: 'forgot-password', component: ForgotPassComponent},
+    { path: 'reset-password', component: ResetPassComponent},
     { path: 'admin', component: AdminComponent, canActivate:[adminGuard], children: [
         { path: 'horse/v1', component: HorseAdminComponent },
         { path: 'product/v1', component: ProductAdminComponent },
