@@ -55,7 +55,25 @@ p.description {
     border-radius: 10px;
     margin-top: 20px;
     margin-bottom: 20px;
-    margin-left: 20px;
+    margin-left: 20px; 
+    margin-right: 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    transition-duration: 0.4s;
+}
+
+.btnP{
+    background-color: #EBE3D5;
+    border: none;
+    color: rgb(0, 0, 0);
+    padding: 12px 16px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 10px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 20px; 
     margin-right: 20px;
     text-align: center;
     text-decoration: none;

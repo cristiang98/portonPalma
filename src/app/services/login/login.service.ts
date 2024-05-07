@@ -114,6 +114,15 @@ export class LoginService {
     return this.currentUserValue.token;
   }
 
+  getCart(): number {
+    const token = this.getToken();
+    if (!token) {
+      return 0;
+    }
+    const decodedToken = this._jwtDecoder.decode(token);
+    return decodedToken ? decodedToken.cart : 0;
+  }
+
   isTokenExpired(): boolean {
     const token = this.getToken(); // Obtén el token de donde lo estás almacenando
     if (!token) {

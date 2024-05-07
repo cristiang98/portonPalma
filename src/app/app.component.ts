@@ -1,11 +1,14 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
 import { NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router';
 import { AdminService } from './services/admin/admin.service';
 import { LoginComponent } from './pages/login/login.component';
 import { UserLoginRequest } from './models/user/user.model';
 import { LoginService } from './services/login/login.service';
 import { User } from './models/userPrueba/userPrueba.model';
+import { CartServiceService } from './services/cart-service.service';
+import { IProduct } from './models/product/product.model';
+import { ICart } from './models/cart/cart.model';
 
 @Component({
   selector: 'app-root',
@@ -16,14 +19,18 @@ import { User } from './models/userPrueba/userPrueba.model';
 })
 export class AppComponent implements OnInit{
   
+  cart: ICart | null = null;
   title = 'porton-de-la-palma';
   menuOption: string = '';
   showNavbar: boolean = true;
   private _adminService = inject(AdminService);
   private _loginService = inject(LoginService);
+  private _cartService = inject(CartServiceService);
+
   currentUser: User | null = null;
   name: string = '';
   rol: string = '';
+  
 
   constructor(private router: Router) {
     this.router.events.subscribe(event => {
@@ -45,11 +52,12 @@ export class AppComponent implements OnInit{
       }
     });
   }
-
-  ngOnInit(): void {
-    
+ 
+  ngOnInit() {
+    this._cartService.updateCart().subscribe(cart => {
+      this.cart = cart;
+    });
   }
-
 
   logout() {
     this._loginService.logout().subscribe(() => {
@@ -66,6 +74,14 @@ export class AppComponent implements OnInit{
 
   onOption(option: string) {
     this.menuOption = option;
+  }
+
+  removeItem(nameProduct: string) {
+    this._cartService.removeItem(nameProduct).subscribe(() => {
+      this._cartService.getCart().subscribe(cart => {
+        this.cart = cart;
+      });
+    });
   }
 
 
