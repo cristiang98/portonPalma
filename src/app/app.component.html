@@ -59,36 +59,46 @@
 
         <!-- Carrito -->
 
-        <div class="dropdown dropdown-extendido" style="margin-right: 4%; text-align: center;" >
+        <div class="dropdown dropdown-extendido" style="margin-right: 4%; text-align: center;">
           <img src="../assets/iconos/iconoCarrito.png" alt="" class=" carrito">
           @if (!cart) {
 
-          <div class="dropdown-content">
+          <div class="dropdown-content drop-ctn">
             <p>Carrito vacío</p>
           </div>
           }
           @else {
 
-          <div class="dropdown-content">
+          <div class="dropdown-content drop-ctn">
+
+            <div class="drop-ctn2">
+
+              @for (item of cart.items| keyvalue; track $index) {
+
+              <div class="dropdown-item">
+
+                <h3 style="font-size: 16px;"> {{item.key}} : {{item.value}}
+                  <button class="btn btn-danger btn1" (click)="removeItem(item.key)">
+                    Eliminar</button>
+                  </h3>
+                <hr class="featurette-divider">
 
 
-            @for (item of cart?.items| keyvalue; track $index) {
-
-            <div class="dropdown-item">
-
-              <li> {{item.key}} : {{item.value}} </li>
-              <button class="btn btn-danger" (click)="removeItem(item.key)">Eliminar</button>
-
+              </div>
+              }
+              <p> Total: {{cart.total}}
+              <p>
+              <div>
+                <button class="btn btn-primary btn2" (click)="emptyCart()"> Vaciar </button>
+                <button class="btn btn-primary btn2" (click)="successfulSale()">Pagar</button>
+              </div>
             </div>
-            }
-            <p> Total: {{cart.total}}
-            <p>
           </div>
           }
         </div>
         <div class="d-flex align-items-center" style="margin-right: 3%; ">
 
-          
+
 
           <p style="font-size: 1.5em; margin-top: 6%; font-weight: bold;"> {{ name }}</p>
           <!-- Avatar -->

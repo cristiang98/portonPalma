@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { IProduct } from '../models/product/product.model';
 import { ICart } from '../models/cart/cart.model';
@@ -36,5 +36,13 @@ export class CartServiceService {
   removeItem(nameProduct: string): Observable<any> {
     return this._httpCart.put(`${this.urlBase}/delete-product?nameProduct=${nameProduct}`,{}, {withCredentials: true});
   }
+
+  emptyCart(token: string): Observable<any> {
+    if (!token) {
+        throw new Error('Token is undefined or null');
+    }
+    const params = new HttpParams().set('token', token);
+    return this._httpCart.put(`${this.urlBase}/empty-cart`, {}, { params, withCredentials: true });
+}
 
 }

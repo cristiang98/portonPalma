@@ -27,8 +27,8 @@ export class LoginService {
   private _cookieService = inject(CookieService);
 
   constructor() {
-    let currentUser = localStorage.getItem('currentUser');
-    this.currentUserSubject = new BehaviorSubject<any>(currentUser ? JSON.parse(currentUser) : null);
+    const userCookie = this._cookieService.get('token');
+    this.currentUserSubject = new BehaviorSubject<any>(userCookie ? JSON.parse(userCookie) : null);
     this.currentUser = this.currentUserSubject.asObservable();
   }
 
@@ -36,53 +36,72 @@ export class LoginService {
     return this.currentUserSubject.value;
   }
 
-  loginUser(user: UserLoginRequest): Observable<any> {
-    return this._httpLogin.post<any>(`${this.urlBase}/login`, user, { observe: 'response', responseType: 'text' as 'json', withCredentials: true })
-      .pipe(map(response => {
-        let token: string | null = null;
-        const setCookieHeader = response.headers.get('Set-Cookie');
-        if (setCookieHeader) {
-          const cookies = setCookieHeader.split(';');
-          for (let i = 0; i < cookies.length; i++) {
-            if (cookies[i].trim().startsWith('token=')) {
-              token = cookies[i].split('=')[1];
-              break;
-            }
+  public loadUserFromCookie(): void {
+    console.log('loadUserFromCookie');
+    const token = this._cookieService.get('token');
+    if (token) {
+      let decodedToken = this._jwtDecoder.decode(token);
+      const user = {
+        token: token,
+        role: decodedToken.role,
+        userEmail: decodedToken.userEmail,
+        dni: decodedToken.dni,
+        cart: decodedToken.cart,
+        sub: decodedToken.sub,
+        iat: decodedToken.iat,
+        exp: decodedToken.exp
+      };
+      this.currentUserSubject.next(user);
+    } else {
+      this.currentUserSubject.next(null);
+    }
+  }
+
+loginUser(user: UserLoginRequest): Observable<any> {
+  return this._httpLogin.post<any>(`${this.urlBase}/login`, user, { observe: 'response', responseType: 'text' as 'json', withCredentials: true })
+    .pipe(map(response => {
+      let token: string | null = null;
+      const setCookieHeader = response.headers.get('Set-Cookie');
+      if (setCookieHeader) {
+        const cookies = setCookieHeader.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+          if (cookies[i].trim().startsWith('token=')) {
+            token = cookies[i].split('=')[1];
+            break;
           }
         }
+      }
 
-        // Si no se encontró el token en el encabezado Set-Cookie, busca en el cuerpo de la respuesta
-        if (!token && response.body) {
-          token = response.body;
-        }
+      // Si no se encontró el token en el encabezado Set-Cookie, busca en el cuerpo de la respuesta
+      if (!token && response.body) {
+        token = response.body;
+      }
 
-        if (token) {
-          // injecta el servicio manual de decoder
-          let decodedToken = this._jwtDecoder.decode(token);
-          const user = {
-            token: token, // Almacena el token de autenticación
-            role: decodedToken.role, // Almacena el rol del usuario
-            userEmail: decodedToken.userEmail, // Almacena el email del usuario
-            dni: decodedToken.dni, // Almacena el DNI del usuario
-            cart: decodedToken.cart, // Almacena el carrito del usuario
-            sub: decodedToken.sub, // Almacena el nombre de usuario del token
-            iat: decodedToken.iat, // Almacena la fecha de emisión del token
-            exp: decodedToken.exp // Almacena la fecha de expiración del token
-            // Agrega aquí cualquier otro claim que necesites
-          };
-          this.nameJwt = user.sub;
-          // Almacena los claims del usuario en la cookie
-          this._cookieService.set('token', JSON.stringify(user));
-          // Almacena la fecha de expiración en la cookie
-          this._cookieService.set('expires_at', JSON.stringify(decodedToken.exp));
-          this.currentUserSubject.next(user);
+      if (token) {
+        // injecta el servicio manual de decoder
+        let decodedToken = this._jwtDecoder.decode(token);
+        const user = {
+          token: token, // Almacena el token de autenticación
+          role: decodedToken.role, // Almacena el rol del usuario
+          userEmail: decodedToken.userEmail, // Almacena el email del usuario
+          dni: decodedToken.dni, // Almacena el DNI del usuario
+          cart: decodedToken.cart, // Almacena el carrito del usuario
+          sub: decodedToken.sub, // Almacena el nombre de usuario del token
+          iat: decodedToken.iat, // Almacena la fecha de emisión del token
+          exp: decodedToken.exp // Almacena la fecha de expiración del token
+          // Agrega aquí cualquier otro claim que necesites
+        };
+        this.nameJwt = user.sub;
+        // Almacena los claims del usuario en la cookie
+        // this._cookieService.set('token', JSON.stringify(user));
+        // Almacena la fecha de expiración en la cookie
+        // this._cookieService.set('expires_at', JSON.stringify(decodedToken.exp));
+        this.currentUserSubject.next(user);
+      }
 
-
-        }
-
-        return response;
-      }));
-  }
+      return response;
+    }));
+}
 
   logout() {
     return this._httpLogin.post<any>(`${this.urlBase}/logout`, {}, { withCredentials: true })

@@ -9,6 +9,15 @@ import { User } from './models/userPrueba/userPrueba.model';
 import { CartServiceService } from './services/cart-service.service';
 import { IProduct } from './models/product/product.model';
 import { ICart } from './models/cart/cart.model';
+import { HttpParams } from '@angular/common/http';
+import { CookieService } from 'ngx-cookie-service';
+import { SaleService } from './services/sale/sale.service';
+import { ApiProductsService } from './services/products/api-products.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialog } from '@angular/material/dialog';
+import { ModalSaleComponent } from './pages/modal-sale/modal-sale.component';
+import { ISale } from './models/sale/sale.model';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -23,9 +32,20 @@ export class AppComponent implements OnInit{
   title = 'porton-de-la-palma';
   menuOption: string = '';
   showNavbar: boolean = true;
-  private _adminService = inject(AdminService);
   private _loginService = inject(LoginService);
   private _cartService = inject(CartServiceService);
+  private _saleService = inject(SaleService);
+  private _snackBar= inject(MatSnackBar);
+  private _dialog = inject(MatDialog);
+  private authService = inject(LoginService);
+  sale:ISale = {
+    id: 0,
+    total: 0,
+    email: ' ',
+    dni: ' ',
+    products: [],
+    date: ''
+};
 
   currentUser: User | null = null;
   name: string = '';
@@ -49,6 +69,8 @@ export class AppComponent implements OnInit{
       }
       else {
         this.currentUser = null;
+        this.name = '';
+        this.rol = '';
       }
     });
   }
@@ -83,6 +105,34 @@ export class AppComponent implements OnInit{
       });
     });
   }
+
+  emptyCart() {
+      if (this.currentUser && this.currentUser.token) {
+          const token = this.currentUser.token;
+          this._cartService.emptyCart(token).subscribe(() => {
+              this._cartService.getCart().subscribe(cart => {
+                  this.cart = cart;
+              });
+          });
+      } else {
+          console.error('currentUser or currentUser.token is undefined');
+      }
+  }
+
+  successfulSale() {
+    this._saleService.successfulSale().subscribe(sale => {
+        this.sale = sale;
+        this._dialog.open(ModalSaleComponent, {
+          data: this.sale,
+        });
+        this.emptyCart();
+        console.log(this.sale);
+    }, error => {
+        this._snackBar.open('Error al realizar la venta', 'Cerrar', {
+            duration: 2000,
+        });
+    });
+}
 
 
 }

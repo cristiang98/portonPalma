@@ -1,0 +1,15 @@
+/* modal-sale.component.css */
+
+.container div {
+    text-align: center;
+}
+
+.list-group {
+    display: block;
+    list-style: none;
+    text-align: left;
+}
+
+.list-group-item img {
+    width: 10%;
+}
