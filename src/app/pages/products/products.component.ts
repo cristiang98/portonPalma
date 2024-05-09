@@ -40,6 +40,7 @@ export class ProductsComponent implements OnInit {
       this.originalProductsList = data;
       this.productList = [...this.originalProductsList];
       this.productList2 = this.filterProducts(this.originalProductsList);
+      console.log(this.productList2);
     });
 
   }

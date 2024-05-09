@@ -13,6 +13,7 @@ import { adminGuard } from './admin.guard';
 import { ForgotPassComponent } from './pages/forgotPass/forgot-pass/forgot-pass.component';
 import { ServiceeComponent } from './pages/servicee/servicee.component';
 import { ResetPassComponent } from './pages/reset-pass/reset-pass.component';
+import { EditUserComponent } from './pages/editUser/edit-user/edit-user.component';
 
 export const routes: Routes = [
 
@@ -25,6 +26,7 @@ export const routes: Routes = [
     { path: 'user/auth/register', component: RegisterComponent},
     { path: 'forgot-password', component: ForgotPassComponent},
     { path: 'reset-password', component: ResetPassComponent},
+    { path: 'edit-user', component: EditUserComponent},
     { path: 'admin', component: AdminComponent, canActivate:[adminGuard], children: [
         { path: 'horse/v1', component: HorseAdminComponent },
         { path: 'product/v1', component: ProductAdminComponent },
