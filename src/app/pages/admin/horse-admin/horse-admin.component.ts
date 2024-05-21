@@ -20,6 +20,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class HorseAdminComponent implements OnInit, OnDestroy {
 
+  currentPage: number = 1;
+  itemsPerPage: number = 4;
+  totalPages: number = 0;
+
   horses: IHorse[] = []; // Inicializa la lista de caballos
   newHorse: IHorse = {  // Inicializa el nuevo caballo
     breed: '',
@@ -45,12 +49,14 @@ export class HorseAdminComponent implements OnInit, OnDestroy {
   getHorses() {
     this._horseService.getHorses().subscribe(horses => {
       this.horses = horses;
+      this.totalPages = Math.ceil(this.horses.length / this.itemsPerPage);
       console.log('horses:', horses);
     });
   }
 
   ngOnInit() {
     this.getHorses();
+    
   }
 
   ngOnDestroy(): void {

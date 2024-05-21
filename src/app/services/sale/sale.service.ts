@@ -14,10 +14,14 @@ export class SaleService {
   constructor() { }
 
   successfulSale(): Observable<any> {
-    return this._httpSale.post(`${this.urlBase}/successful`, {}, {withCredentials: true})
+    return this._httpSale.get(`${this.urlBase}/successful`, {responseType: 'text' , withCredentials: true})
   }
 
+  getSaleHistory(): Observable<ISale[]> {
+    return this._httpSale.get<ISale[]>(`${this.urlBase}/history`, { withCredentials: true });
   }
+
+}
 
 
 

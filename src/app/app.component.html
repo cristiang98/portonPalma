@@ -13,7 +13,7 @@
         </button>
 
         <!-- Collapsible wrapper -->
-        <div class="collapse navbar-collapse" id="navbar-toggler" style="margin-left: 3%;">
+        <div class="collapse navbar-collapse" id="navbar-toggler" style="margin-left: 6%;">
           <!-- Navbar brand -->
           <a class="navbar-brand mt-2 mt-lg-0" routerLink="" [ngClass]="{active:menuOption === 'home'}"
             (click)="onOption('home')">
@@ -42,11 +42,10 @@
                 (click)="onOption('services/v1')">SERVICIOS</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">EVENTOS</a>
+              <a class="nav-link" routerLink='event/v1' [ngClass]="{active: menuOption === 'event/v1'}"
+              (click)="onOption('event/v1')">EVENTOS</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">CONTACTO</a>
-            </li>
+
 
           </ul>
 

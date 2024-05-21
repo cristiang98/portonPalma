@@ -19,6 +19,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class ProductAdminComponent implements OnInit, OnDestroy{
 
+  currentPage: number = 1;
+  itemsPerPage: number = 4;
+  totalPages: number = 0;
   products: IProduct[] = []; // Inicializa la lista de produtos
   category1 = Category; // Inicializa la categoría
   categoryKeys = Object.keys(Category);// Inicializa las claves de la categoría
@@ -50,6 +53,7 @@ export class ProductAdminComponent implements OnInit, OnDestroy{
     // Suscribirse a los cambios en la lista de productos
     this.productsSub = this._productService.getProductsUpdateListener().subscribe((products: IProduct[]) => {
       this.products = products;
+      this.totalPages = Math.ceil(this.products.length / this.itemsPerPage);
     });
 
     
@@ -62,6 +66,7 @@ export class ProductAdminComponent implements OnInit, OnDestroy{
   getProducts() {
     this._productService.getProducts().subscribe(products => {
       this.products = products;
+      this.totalPages = Math.ceil(this.products.length / this.itemsPerPage);
       console.log('products:', products);
     });
   }

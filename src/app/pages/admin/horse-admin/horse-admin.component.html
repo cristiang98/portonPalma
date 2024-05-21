@@ -3,8 +3,8 @@
     <h1>Lista de caballos</h1>
 
 
-    <div class="horse-list" style="height: 20vh; overflow-y: auto;">
-        <div *ngFor="let horse of horses">
+    <div class="horse-list" style="height: 38vh; overflow-y: auto;">
+        <div *ngFor="let horse of horses  | slice: (currentPage-1) * itemsPerPage : currentPage * itemsPerPage">
 
             <table class="table table-light">
                 <thead>
@@ -32,6 +32,14 @@
                 </tbody>
             </table>
         </div>
+    </div>
+    <div class="pagination">
+
+        <button [disabled]="currentPage === 1" (click)="currentPage = currentPage - 1">Anterior</button>
+        <span>Página {{currentPage}} de {{totalPages}}</span>
+        <button [disabled]="currentPage === horses.length / itemsPerPage"
+        (click)="currentPage = currentPage + 1">Siguiente</button>
+    
     </div>
 
     <!-- Formulario para agregar un nuevo caballo -->

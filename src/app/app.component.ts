@@ -41,9 +41,9 @@ export class AppComponent implements OnInit{
   sale:ISale = {
     id: 0,
     total: 0,
-    email: ' ',
+    userEmail: ' ',
     dni: ' ',
-    products: [],
+    items: [],
     date: ''
 };
 
@@ -56,7 +56,7 @@ export class AppComponent implements OnInit{
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         // Determina si el navbar debe mostrarse según la ruta actual
-        this.showNavbar = !['/admin', '/admin/horse/v1', '/admin/product/v1', '/admin/event/v1', '/admin/services/v1'].includes(event.url);
+        this.showNavbar = !['/admin', '/admin/horse/v1', '/admin/product/v1', '/admin/event/v1', '/admin/services/v1', '/admin/show-sale'].includes(event.url);
       }
     });
 
@@ -120,19 +120,11 @@ export class AppComponent implements OnInit{
   }
 
   successfulSale() {
-    this._saleService.successfulSale().subscribe(sale => {
-        this.sale = sale;
-        this._dialog.open(ModalSaleComponent, {
-          data: this.sale,
-        });
-        this.emptyCart();
-        console.log(this.sale);
-    }, error => {
-        this._snackBar.open('Error al realizar la venta', 'Cerrar', {
-            duration: 2000,
-        });
+    this._saleService.successfulSale().subscribe((sale) => {
+      window.location.href = sale;
+
     });
-}
+  }
 
 
 }

@@ -7,11 +7,14 @@ import { LoginService } from '../../services/login/login.service';
 import { ICart } from '../../models/cart/cart.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { catchError, of } from 'rxjs';
+import { CustomCurrencyPipe } from '../../pipe/custom-currency.pipe';
+import { CustomCapitalizePipe } from '../../pipe/custom-capitalize.pipe';
+import { CustomFirstLetterUppercasePipe } from '../../pipe/custom-first-letter-uppercase.pipe';
 
 @Component({
   selector: 'app-products',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, CustomCurrencyPipe, CustomCapitalizePipe, CustomFirstLetterUppercasePipe],
   templateUrl: './products.component.html',
   styleUrl: './products.component.css'
 })
@@ -92,6 +95,8 @@ export class ProductsComponent implements OnInit {
 
         this._cartService.getCart().subscribe(cart => {
           this.cart = cart;
+          console.log(this.cart === null ? 'Carrito vacío' : 'Carrito con productos');
+          console.log(this.cart);
         });
         
 

@@ -3,8 +3,8 @@ import { IProduct } from "../product/product.model";
 export interface ISale {
     id?: number;
     total?: number;
-    email?: string;
+    userEmail?: string;
     dni?: string;
-    products?: IProduct[];
+    items?: IProduct[];
     date?: string;
 }

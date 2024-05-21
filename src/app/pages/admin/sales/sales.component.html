@@ -1,0 +1,39 @@
+<div class="container lista">
+    <h1>Lista de Ventas</h1>
+
+    <div *ngFor="let sale of saleHistory | slice: (currentPage-1) * itemsPerPage : currentPage * itemsPerPage">
+        <div class="sale-list" style="height: 100%; overflow-y: auto;">
+            <table class="table table-light">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Cédula</th>
+                        <th scope="col">Fecha</th>
+                        <th scope="col">Productos</th>
+                        <th scope="col">Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td> {{sale.id}} </td>
+                        <td>{{sale.userEmail}}</td>
+                        <td>{{sale.dni}}</td>
+                        <td>{{sale.date}}</td>
+                        <td *ngFor="let item of sale.items | keyvalue">{{item.key}}: {{item.value}}</td>
+                        <td>{{sale.total}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="pagination">
+
+        <button [disabled]="currentPage === 1" (click)="currentPage = currentPage - 1">Anterior</button>
+        <span>Página {{currentPage}} de {{totalPages}}</span>
+        <button [disabled]="currentPage === saleHistory.length / itemsPerPage"
+        (click)="currentPage = currentPage + 1">Siguiente</button>
+    
+    </div>
+
+</div>

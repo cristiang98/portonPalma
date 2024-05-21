@@ -14,6 +14,8 @@ import { ForgotPassComponent } from './pages/forgotPass/forgot-pass/forgot-pass.
 import { ServiceeComponent } from './pages/servicee/servicee.component';
 import { ResetPassComponent } from './pages/reset-pass/reset-pass.component';
 import { EditUserComponent } from './pages/editUser/edit-user/edit-user.component';
+import { EventsComponent } from './pages/events/events.component';
+import { SalesComponent } from './pages/admin/sales/sales.component';
 
 export const routes: Routes = [
 
@@ -22,6 +24,7 @@ export const routes: Routes = [
     { path: 'horse/v1', component: HorseComponent },
     { path:'product/v1', component: ProductsComponent},
     { path:'services/v1', component: ServiceeComponent},
+    { path: 'event/v1', component: EventsComponent},
     { path: 'user/auth/login', component: LoginComponent},
     { path: 'user/auth/register', component: RegisterComponent},
     { path: 'forgot-password', component: ForgotPassComponent},
@@ -31,7 +34,8 @@ export const routes: Routes = [
         { path: 'horse/v1', component: HorseAdminComponent },
         { path: 'product/v1', component: ProductAdminComponent },
         { path: 'services/v1', component:  ServiceeAdminComponent},
-        { path: 'event/v1', component: HorseAdminComponent }
+        { path: 'event/v1', component: HorseAdminComponent },
+        { path: 'show-sale', component: SalesComponent}
       ]},
     { path: '**', redirectTo: '', pathMatch: 'full'}
 

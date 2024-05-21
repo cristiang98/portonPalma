@@ -3,8 +3,8 @@
     <h1>Lista de productos</h1>
 
 
-    <div class="product-list" style="height: 20vh; overflow-y: auto;">
-        <div *ngFor="let product of products">
+    <div class="product-list" style="height: 38vh; overflow-y: auto;">
+        <div *ngFor="let product of products | slice: (currentPage-1) * itemsPerPage : currentPage * itemsPerPage">
 
             <table class="table table-light">
                 <thead>
@@ -34,6 +34,14 @@
                 </tbody>
             </table>
         </div>
+    </div>
+    <div class="pagination">
+
+        <button [disabled]="currentPage === 1" (click)="currentPage = currentPage - 1">Anterior</button>
+        <span>Página {{currentPage}} de {{totalPages}}</span>
+        <button [disabled]="currentPage === products.length / itemsPerPage"
+        (click)="currentPage = currentPage + 1">Siguiente</button>
+    
     </div>
 
     <!-- Formulario para agregar un nuevo producto -->

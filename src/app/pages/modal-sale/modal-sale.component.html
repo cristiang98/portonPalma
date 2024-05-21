@@ -2,13 +2,13 @@
     <div style="text-align: center;">
       <h1>Venta exitosa</h1>
       <hr class="">
-      <p class="mb-0">Correo del Cliente: {{data.email}}</p>
+      <p class="mb-0">Correo del Cliente: {{data.userEmail}}</p>
       <p class="mb-0">Dni del Cliente: {{data.dni}}</p>
       <p class="mb-0">Total de la venta: {{data.total}}</p>
       <p class="mb-0">Fecha de la venta: {{data.date}}</p>
       <p class="mb-0">Productos:</p>
       <ul class="list-group" >
-        <li class="list-group-item" *ngFor="let product of data?.products">
+        <li class="list-group-item" *ngFor="let product of data?.items">
           <img src="{{product.imagePath}}" alt="" class="img-thumbnail" style="width: 10%;">
           {{product.nameProduct}} - {{product.price}}
         </li>

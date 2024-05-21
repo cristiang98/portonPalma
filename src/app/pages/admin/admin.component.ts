@@ -8,11 +8,12 @@ import { EventAdminComponent } from './event-admin/event-admin.component';
 import { ServiceeAdminComponent } from './servicee-admin/servicee-admin.component';
 import { HomeAdminComponent } from './home-admin/home-admin.component';
 import { LoginService } from '../../services/login/login.service';
+import { SalesComponent } from './sales/sales.component';
 
 @Component({
   selector: 'app-admin',
   standalone: true,
-  imports: [CommonModule, HorseAdminComponent, ProductAdminComponent, EventAdminComponent, ServiceeAdminComponent, HomeAdminComponent ],
+  imports: [CommonModule, HorseAdminComponent, ProductAdminComponent, EventAdminComponent, ServiceeAdminComponent, HomeAdminComponent, SalesComponent ],
   templateUrl: './admin.component.html',
   styleUrl: '../../../assets/css/style.css'
 })
