@@ -85,7 +85,7 @@
 
               </div>
               }
-              <p> Total: {{cart.total}}
+              <p> Total: {{cart.total | customCurrency}}
               <p>
               <div>
                 <button class="btn btn-primary btn2" (click)="emptyCart()"> Vaciar </button>

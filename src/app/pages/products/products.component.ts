@@ -84,26 +84,24 @@ export class ProductsComponent implements OnInit {
               panelClass: 'my-snackbar',
             });
           }
-          return of(null); // Devuelve un Observable que emite null
+          return of(false); // Devuelve un Observable que emite false
         })
-      ).subscribe(() => {
-        this._snackBar.open('Producto agregado al carrito', 'Cerrar', {
-          duration: 5000,
-          verticalPosition: 'top',
-          panelClass: 'my-snackbar',
-        });
-
-        this._cartService.getCart().subscribe(cart => {
-          this.cart = cart;
-          console.log(this.cart === null ? 'Carrito vacío' : 'Carrito con productos');
-          console.log(this.cart);
-        });
-        
-
-
+      ).subscribe(success => {
+        if (success !== false) {
+          this._snackBar.open('Producto agregado al carrito', 'Cerrar', {
+            duration: 5000,
+            verticalPosition: 'top',
+            panelClass: 'my-snackbar',
+          });
+  
+          this._cartService.getCart().subscribe(cart => {
+            this.cart = cart;
+            console.log(this.cart === null ? 'Carrito vacío' : 'Carrito con productos');
+            console.log(this.cart);
+          });
+        }
       });
     }
-
   }
 
   updateProducts() {

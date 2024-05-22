@@ -18,11 +18,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { ModalSaleComponent } from './pages/modal-sale/modal-sale.component';
 import { ISale } from './models/sale/sale.model';
 import { BehaviorSubject } from 'rxjs';
+import { CustomCurrencyPipe } from './pipe/custom-currency.pipe';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, CommonModule, RouterLink, LoginComponent],
+  imports: [RouterOutlet, CommonModule, RouterLink, LoginComponent, CustomCurrencyPipe],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
