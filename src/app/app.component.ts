@@ -62,15 +62,24 @@ export class AppComponent implements OnInit{
 
     // Suscríbete a la información del usuario
     this._loginService.currentUser.subscribe(user => {
-      this.currentUser = user;
       if (user) {
+        this.currentUser = user;
         this.name = user.sub;
         this.rol = user.role;
-      }
-      else {
-        this.currentUser = null;
-        this.name = '';
-        this.rol = '';
+      } else {
+        // Si no hay un usuario actual, busca en localStorage
+        const storedUsername = localStorage.getItem('username');
+        const storedRole = localStorage.getItem('role');
+    
+        if (storedUsername && storedRole) {
+          this.currentUser = { name: storedUsername, role: storedRole };
+          this.name = storedUsername;
+          this.rol = storedRole;
+        } else {
+          this.currentUser = null;
+          this.name = '';
+          this.rol = '';
+        }
       }
     });
   }
@@ -87,6 +96,8 @@ export class AppComponent implements OnInit{
       this.currentUser = null;
       this.name = '';
       this.rol = '';
+      localStorage.removeItem('username');
+      localStorage.removeItem('role');
   
       // Navegar al home
       this.router.navigate(['/home']);

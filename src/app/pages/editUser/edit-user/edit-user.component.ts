@@ -4,6 +4,7 @@ import { RegisterService } from '../../../services/register/register.service';
 import { IUser } from '../../../models/userRegister/userRegister.model';
 import { CommonModule, NgClass } from '@angular/common';
 import { LoginService } from '../../../services/login/login.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-edit-user',
@@ -23,7 +24,7 @@ export class EditUserComponent {
   city: any[] = [''];
   selectCountry = 'Seleccionar País';
 
-  constructor() {
+  constructor(private snackBar: MatSnackBar) {
     this.registerForm = this.formBuilder.group({
       firstname: ['', Validators.required],
       lastName: ['', Validators.required],
@@ -39,22 +40,24 @@ export class EditUserComponent {
     });
 
     this.authService.getUserData().subscribe((userData: any) => {
-      console.log('userData', userData[0]);
-      if (userData && userData[0] && userData[0].name && userData[0].address) {
-        let nameParts = userData[0].name.split(' ');
-        let locationParts = userData[0].address.split(' ');
+      const userEmail = this.authService.getCurrentUserEmail();
+      const user = userData.find((user: any) => user.email === userEmail);
+    
+      if (user && user.name && user.address) {
+        let nameParts = user.name.split(' ');
+        let locationParts = user.address.split(' ');
         this.registerForm.patchValue({
           firstname: nameParts[0] || '',
           lastName: nameParts[1] || '',
-          dni: userData[0].dni,
-          email: userData[0].email,
-          cellphone: userData[0].cellphone,
+          dni: user.dni,
+          email: user.email,
+          cellphone: user.cellphone,
           country: `${locationParts[0] || ''}`,
           department: `${locationParts[1] || ''}`,
           city: `${locationParts[2] || ''}`,
           address: `${locationParts[3] || ''} ${locationParts[4] || ''} ${locationParts[5] || ''} ${locationParts[6] || ''} ${locationParts[7] || ''} `,
-
         });
+        
       }
     });
   }
@@ -88,12 +91,21 @@ export class EditUserComponent {
         (data) => {
           console.log('Usuario registrado con éxito', data);
           this.registerForm.reset();
-          
-          // Aquí puedes hacer lo que quieras con los datos devueltos por tu API
+      
+          this.snackBar.open('Usuario actualizado con éxito', 'Cerrar', {
+            duration: 2000,
+            verticalPosition: 'top',
+            panelClass: 'my-snackbar',
+          });
         },
         (error) => {
-          console.log('Error al registrar el usuario', error);
-          // Aquí puedes manejar los errores que puedan ocurrir durante el registro
+          console.log('Error al actualizar el usuario', error);
+      
+          this.snackBar.open('No se pudo actualizar el usuario', 'Cerrar', {
+            duration: 2000,
+            verticalPosition: 'top',
+            panelClass: 'my-snackbar',
+          });
         }
       );
     }

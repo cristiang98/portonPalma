@@ -90,9 +90,11 @@ export class LoginService {
             sub: decodedToken.sub, // Almacena el nombre de usuario del token
             iat: decodedToken.iat, // Almacena la fecha de emisión del token
             exp: decodedToken.exp // Almacena la fecha de expiración del token
-            // Agrega aquí cualquier otro claim que necesites
+            // Agrega aquí cualquier otro claim que necesitesz
           };
           this.nameJwt = user.sub;
+          localStorage.setItem('username', user.sub);
+          localStorage.setItem('role', user.role);
           // Almacena los claims del usuario en la cookie
           // this._cookieService.set('token', JSON.stringify(user));
           // Almacena la fecha de expiración en la cookie
@@ -183,5 +185,9 @@ export class LoginService {
 
   putUserData(userdata:IUser ): Observable<IUser> {
     return this._httpLogin.put<IUser>(`${this.urlBase}/put`, userdata, { withCredentials: true });
+  }
+
+  getCurrentUserEmail(): string {
+    return this.currentUserValue ? this.currentUserValue.userEmail : '';
   }
 }
