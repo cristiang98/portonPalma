@@ -76,7 +76,7 @@
 
               <div class="dropdown-item">
 
-                <h3 style="font-size: 16px;"> {{item.key}} : {{item.value}}
+                <h3 style="font-size: 16px;"> {{item.key}} : {{item.value | customCurrency}}
                   <button class="btn btn-danger btn1" (click)="removeItem(item.key)">
                     Eliminar</button>
                   </h3>
