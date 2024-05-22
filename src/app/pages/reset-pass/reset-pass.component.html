@@ -5,7 +5,7 @@
             <div class="row justify-content-center">
                 <div class="col-4">
                     <label for="contraseña">*Contraseña: </label>
-                    <input id="contraseña" type="text" class="form-control" placeholder="Contraseña:"
+                    <input id="contraseña" type="password" class="form-control" placeholder="Contraseña:"
                         aria-label="*Contraseña1:" formControlName="password"
                         [ngClass]="{'is-invalid': hasErrors('password', 'required') || hasErrors('password', 'email')}">
                     <div *ngIf="hasErrors('password', 'required')" class="text-danger">la Contraseña es requerida
@@ -13,7 +13,7 @@
                 </div>
                 <div class="col-4">
                     <label for="confirmContraseña">*Confirmar contraseña: </label>
-                    <input id="confirmContraseña" type="text" class="form-control" placeholder="Contraseña:"
+                    <input id="confirmContraseña" type="password" class="form-control" placeholder="Contraseña:"
                         aria-label="*Contraseña2:" formControlName="confirmPassword"
                         [ngClass]="{'is-invalid': hasErrors('confirmPassword', 'required') || hasErrors('confirmPassword', 'email')}">
                     <div *ngIf="hasErrors('confirmPassword', 'required')" class="text-danger">la Contraseña es requerida

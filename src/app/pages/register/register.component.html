@@ -101,7 +101,7 @@
                 </div>
                 <div class="col-2">
                     <label for="">*Contraseña: </label>
-                    <input type="text" class="form-control" placeholder="Contraseña" aria-label="Contraseña"
+                    <input type="password" class="form-control" placeholder="Contraseña" aria-label="Contraseña"
                         formControlName="password"
                         [ngClass]="{'is-invalid': hasErrors('password', 'required') || hasErrors('password', 'minlength')}">
                     <div *ngIf="hasErrors('password', 'required')" class="text-danger">La contraseña es requerida</div>
@@ -111,7 +111,7 @@
 
                 <div class="col-2">
                     <label for="">*Confirmar Contraseña: </label>
-                    <input type="text" class="form-control" placeholder="Confirmar Contraseña" aria-label="Contraseña"
+                    <input type="password" class="form-control" placeholder="Confirmar Contraseña" aria-label="Contraseña"
                         formControlName="confirmPassword" [ngClass]="{'is-invalid': hasErrors('password', 'required')}">
                     <div *ngIf="hasErrors('confirmPassword', 'required')" class="text-danger">La confirmación de la
                         contraseña es requerida
