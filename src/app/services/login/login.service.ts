@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
@@ -29,9 +29,17 @@ export class LoginService {
 
   constructor() {
     const userCookie = this._cookieService.get('token');
-    this.currentUserSubject = new BehaviorSubject<any>(userCookie ? JSON.parse(userCookie) : null);
+    let userCookieJson = null;
+
+    try {
+        userCookieJson = this._jwtHelper.decodeToken(userCookie);
+    } catch (error) {
+        console.error('Error al decodificar userCookie:', error);
+    }
+
+    this.currentUserSubject = new BehaviorSubject<any>(userCookieJson);
     this.currentUser = this.currentUserSubject.asObservable();
-  }
+}
 
   public get currentUserValue(): any {
     return this.currentUserSubject.value;
@@ -162,22 +170,23 @@ export class LoginService {
   }
 
   forgotPassword(emailRequest: {email: string}): Observable<any> {
-    return this._httpLogin.post<any>(`${this.urlBase}/forgot-password`, emailRequest, { withCredentials: true });
+    const httpOptions = {
+      withCredentials: true,
+      responseType: 'text' as 'json'
+    };
+
+    return this._httpLogin.post<any>(`${this.urlBase}/forgot-password`, emailRequest, httpOptions);
   }
 
   resetPassword(token: string, newPasswordRequest: {newPassword: string}): Observable<any> {
     const httpOptions = {
         params: new HttpParams().set('token', token),
-        withCredentials: true
+        withCredentials: true,
+        responseType: 'text' as 'json'
     };
     return this._httpLogin.put<any>(`${this.urlBase}/reset-password`, newPasswordRequest, httpOptions);
 }
 
-  resetPassword1(token: string, newPasswordRequest: any): Observable<any> {
-    const headers = { 'content-type': 'application/json'}  
-    const body = JSON.stringify(newPasswordRequest);
-    return this._httpLogin.put(this.urlBase + '/reset-password?token=' + token, body, {'headers':headers});
-  }
 
   getUserData(): Observable<IUser> {
     return this._httpLogin.get<IUser>(`${this.urlBase}`, { withCredentials: true });

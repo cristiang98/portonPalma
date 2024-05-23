@@ -3,6 +3,7 @@ import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, Validator
 import { LoginService } from '../../services/login/login.service';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-reset-pass',
@@ -16,6 +17,7 @@ export class ResetPassComponent implements OnInit {
   recoverForm!: FormGroup;
   private _loginService = inject(LoginService);
   private _route = inject(ActivatedRoute);
+  private _snackBar = inject(MatSnackBar);
 
   checkPasswords = (control: AbstractControl) => {
     let pass = control.get('password')?.value;
@@ -46,7 +48,17 @@ export class ResetPassComponent implements OnInit {
         const newPasswordRequest = { newPassword: passwordControl.value };
         this._loginService.resetPassword(token, newPasswordRequest).subscribe(
           response => {
-            console.log('Response:', response);
+            try {
+              console.log('Response:', response);
+              this._snackBar.open('Contraseña actualizada correctamente', 'Cerrar', {
+                duration: 5000,
+                verticalPosition: 'top',
+                panelClass: 'my-snackbar',
+              });
+              this.recoverForm.reset();
+            } catch (error) {
+              console.error('Error al manejar la respuesta:', error);
+            }
           },
           error => {
             console.error('Error:', error);

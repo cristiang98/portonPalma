@@ -3,6 +3,7 @@ import { CommonModule, NgClass } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { LoginService } from '../../../services/login/login.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-forgot-pass',
@@ -16,6 +17,7 @@ export class ForgotPassComponent implements OnInit {
   recoverForm!: FormGroup; // se coloca ! para indicar que se inicializará en el ngOnInit y no será null en el constructor o en la declaración de la variable en la clase 
   private _httpLogin = inject(HttpClient);
   private _loginService = inject(LoginService);
+  private _snackBar = inject(MatSnackBar);
 
   checkPasswords(group: FormGroup) {
     let pass = group.get('password')?.value;
@@ -36,6 +38,12 @@ export class ForgotPassComponent implements OnInit {
       this._loginService.forgotPassword(emailRequest).subscribe(
         response => {
           console.log('Response:', response);
+          this._snackBar.open('Correo enviado correctamente', 'Cerrar', {
+            duration: 5000,
+            verticalPosition: 'top',
+            panelClass: 'my-snackbar',
+          });
+          this.recoverForm.reset();
         },
         error => {
           console.error('Error:', error);
