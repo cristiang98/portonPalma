@@ -13,37 +13,37 @@
         </button>
 
         <!-- Collapsible wrapper -->
-        <div class="collapse navbar-collapse" id="navbar-toggler" style="margin-left: 6%;">
+        <div class="collapse navbar-collapse" id="navbar-toggler" style="margin-left: 12%;">
           <!-- Navbar brand -->
           <a class="navbar-brand mt-2 mt-lg-0" routerLink="" [ngClass]="{active:menuOption === 'home'}"
             (click)="onOption('home')">
-            <img src="../assets/iconos/portonSinFondoNoHd.png" height="86" alt="porton de la palma" loading="lazy" />
+            <img src="../assets/iconos/portonSinFondoNoHd.png" height="86" alt="porton de la palma" loading="lazy" style="margin-right: 10%;" />
           </a>
           <!-- Left links -->
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0 " style="margin-left: auto;">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0 " style="margin-left: 20%;">
             <li class="nav-item">
               <a class="nav-link" routerLink="" [ngClass]="{active:menuOption === 'home'}"
-                (click)="onOption('home')">INICIO </a>
+                (click)="onOption('home')">Inicio </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" routerLink="about-us" [ngClass]="{active:menuOption === 'about-us'}"
-                (click)="onOption('about-us')">NOSOTROS</a>
+                (click)="onOption('about-us')">Nosotros</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" routerLink="horse/v1" [ngClass]="{active: menuOption === 'horse/v1'}"
-                (click)="onOption('horse/v1')">CABALLOS</a>
+                (click)="onOption('horse/v1')">Caballos</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" routerLink="product/v1" [ngClass]="{active: menuOption === 'product/v1'}"
-                (click)="onOption('product/v1')">PRODUCTOS</a>
+                (click)="onOption('product/v1')">Productos</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" routerLink='services/v1' [ngClass]="{active: menuOption === 'services/v1'}"
-                (click)="onOption('services/v1')">SERVICIOS</a>
+                (click)="onOption('services/v1')">Servicios</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" routerLink='event/v1' [ngClass]="{active: menuOption === 'event/v1'}"
-              (click)="onOption('event/v1')">EVENTOS</a>
+              (click)="onOption('event/v1')">Eventos</a>
             </li>
 
 
@@ -76,7 +76,7 @@
 
               <div class="dropdown-item">
 
-                <h3 style="font-size: 16px;"> {{item.key}} : {{item.value | customCurrency}}
+                <h3 style="font-size: 16px;"> {{item.key}} : {{item.value }}
                   <button class="btn btn-danger btn1" (click)="removeItem(item.key)">
                     Eliminar</button>
                   </h3>
