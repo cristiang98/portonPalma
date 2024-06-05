@@ -29,27 +29,19 @@ export class LoginService {
 
   constructor() {
     const userCookie = this._cookieService.get('token');
-<<<<<<< HEAD
-    let user = null;
-    if (userCookie) {
-      try {
-        user =this._jwtHelper.decodeToken(userCookie);
-      } catch (error) {
-        console.error('Error decoding token', error);
-      }
-    }
-    this.currentUserSubject = new BehaviorSubject<any>(user);
-=======
+
     let userCookieJson = null;
 
-    try {
-        userCookieJson = this._jwtHelper.decodeToken(userCookie);
-    } catch (error) {
-        console.error('Error al decodificar userCookie:', error);
+    if (userCookie) {
+        try {
+            userCookieJson = this._jwtHelper.decodeToken(userCookie);
+        } catch (error) {
+            console.error('Error al decodificar userCookie:', error);
+        }
     }
 
     this.currentUserSubject = new BehaviorSubject<any>(userCookieJson);
->>>>>>> b853bac5642b115cbcca812890fd3bee36c283e5
+
     this.currentUser = this.currentUserSubject.asObservable();
 }
 
