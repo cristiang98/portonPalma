@@ -29,7 +29,15 @@ export class LoginService {
 
   constructor() {
     const userCookie = this._cookieService.get('token');
-    this.currentUserSubject = new BehaviorSubject<any>(userCookie ? JSON.parse(userCookie) : null);
+    let user = null;
+    if (userCookie) {
+      try {
+        user =this._jwtHelper.decodeToken(userCookie);
+      } catch (error) {
+        console.error('Error decoding token', error);
+      }
+    }
+    this.currentUserSubject = new BehaviorSubject<any>(user);
     this.currentUser = this.currentUserSubject.asObservable();
   }
 

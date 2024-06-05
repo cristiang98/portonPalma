@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 import { ISale } from '../../models/sale/sale.model';
+import { SaleInf } from '../../models/myHistory/saleInf.model';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +20,10 @@ export class SaleService {
 
   getSaleHistory(): Observable<ISale[]> {
     return this._httpSale.get<ISale[]>(`${this.urlBase}/history`, { withCredentials: true });
+  }
+
+  getMyHistory(): Observable<SaleInf[]> {
+    return this._httpSale.get<SaleInf[]>(`${this.urlBase}/my-history`, { withCredentials: true });
   }
 
 }

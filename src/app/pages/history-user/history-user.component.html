@@ -1,0 +1,41 @@
+<div class="row">
+
+    <h1>Historial de compras</h1>
+</div>
+<div class="container">
+    <div *ngFor="let sale of sales | slice: (currentPage-1) * itemsPerPage : currentPage * itemsPerPage">
+        <div class="sale-card">
+            <div class="sale-info">
+                <div>
+                    <h2><strong>Pedido ID #</strong>{{ sale.id }}</h2>
+                    <p><strong>Email:</strong> {{ sale.userEmail }}</p>
+                    <p><strong>DNI:</strong> {{ sale.dni }}</p>
+                    <p><strong>Fecha:</strong> {{ sale.date }}</p>
+                    <p><strong>Total:</strong> {{ sale.total }}</p>
+                </div>
+                <div class="items-container">
+                    <div class="item-card" *ngFor="let item of sale.items">
+                        <h2><strong> {{ item.nameProduct }}</strong></h2>
+                        <p><strong>Descripción:</strong> {{ item.description }}</p>
+                        <p><strong>Precio:</strong> {{ item.price }}</p>
+                        <p><strong>Categoría:</strong> {{ item.category }}</p>
+                        <p><strong>Cantidad:</strong> {{ item.quantity }}</p>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="img-container">
+                <img *ngFor="let item of sale.items" [src]="item.imagePath" alt="{{ item.nameProduct }}">
+            </div>
+        </div>
+    </div>
+    <div class="pagination">
+
+        <button [disabled]="currentPage === 1" (click)="currentPage = currentPage - 1">Anterior</button>
+        <span>Página {{currentPage}} de {{totalPages}}</span>
+        <button [disabled]="currentPage === sales.length / itemsPerPage"
+            (click)="currentPage = currentPage + 1">Siguiente</button>
+
+    </div>
+</div>
