@@ -117,7 +117,7 @@
                   nuevo? Regístrate</a>
                 <a class="dropdown-item" routerLink="forgot-password"
                   [ngClass]="{active:menuOption === 'forgot-password'}" (click)="onOption('forgot-password')">¿Olvidaste
-                  tu Contraseña?</a>
+                  tu contraseña?</a>
               </div>
             </ng-container>
 
@@ -129,12 +129,12 @@
               <div class="dropdown-content">
                 @if (rol === 'ADMIN') {
 
-                <a class="dropdown-item" routerLink="/admin"> {{rol}} </a>
+                <a class="dropdown-item" routerLink="/admin"> Panel de administrador </a>
                 }
                 <a class="dropdown-item" routerLink="/edit-user"
                 [ngClass]="{active:menuOption === 'edit-user'}" (click)="onOption('edit-user')"
                 >Editar perfil</a>
-                <a class="dropdown-item" routerLink="/history-user" [ngClass]="{active:menuOption === 'history-user'}" (click)="onOption('history-user')">Historial de Compras</a>
+                <a class="dropdown-item" routerLink="/history-user" [ngClass]="{active:menuOption === 'history-user'}" (click)="onOption('history-user')">Historial de compras</a>
                 <a class="dropdown-item" href="#" (click)="logout()">Salir</a>
               </div>
             </ng-template>
@@ -208,10 +208,7 @@
     <div class="footer-right">
 
       <p class="footer-company-about">
-        <span>Acerca de la Compañía</span>
-        Lorem ipsum dolor sit amet, consectateur adispicing elit. Fusce euismod convallis velit, eu auctor lacus
-        vehicula
-        sit amet.
+        <span>Redes de la Compañía</span>
       </p>
 
       <div class="footer-icons">

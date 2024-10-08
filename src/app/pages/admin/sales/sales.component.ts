@@ -6,6 +6,7 @@ import { CustomCapitalizePipe } from '../../../pipe/custom-capitalize.pipe';
 import { CustomCurrencyPipe } from '../../../pipe/custom-currency.pipe';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { SaleInf } from '../../../models/myHistory/saleInf.model';
 
 @Component({
   selector: 'app-sales',
@@ -17,16 +18,18 @@ import { CommonModule } from '@angular/common';
 export class SalesComponent implements OnInit{
 
   saleHistory: ISale[] = [];
+  sales: SaleInf[] = [];
   currentPage: number = 1;
   itemsPerPage: number = 5;
   totalPages: number = 0;
   private saleService = inject(SaleService);
 
   ngOnInit() {
-    this.saleService.getSaleHistory().subscribe((saleHistory: ISale[]) => {
-      this.saleHistory = saleHistory;
-      this.totalPages = Math.ceil(this.saleHistory.length / this.itemsPerPage);
-      console.log(this.saleHistory);
+
+
+    this.saleService.getSaleHistory().subscribe(sales => {
+      this.sales = sales;
+      this.totalPages = Math.ceil(this.sales.length / this.itemsPerPage);
     });
   }
 
