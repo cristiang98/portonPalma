@@ -3,6 +3,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { RegisterService } from '../../services/register/register.service';
 import { CommonModule, NgClass } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { IUser } from '../../models/userRegister/userRegister.model';
 
 @Component({
   selector: 'app-register',
@@ -53,22 +54,21 @@ export class RegisterComponent implements OnInit {
     event.preventDefault();  // Evita que el formulario se envíe de la forma predeterminada
     if (this.registerForm.valid) {
       const formValues = this.registerForm.value;
-      const user = {
+      const user : IUser= {
         name: this.capitalize(`${formValues.firstname} ${formValues.lastName}`),
         email: formValues.email,
         dni: formValues.dni,
-        cellphone: formValues.number,
-        address: {
-          country: formValues.country,
-          department: formValues.department,
-          city: formValues.city,
-          address: formValues.address
-        },
+        cellphone: formValues.cellphone,
+        address: `${formValues.country} ${formValues.department} ${formValues.city} ${formValues.address}`, // Aquí puedes concatenar los valores de dirección, ciudad, departamento y país
         password: formValues.password
       };
       this._httpCountry.registerUser(user).subscribe(
         (data) => {
           console.log('Usuario registrado con éxito', data);
+          this.registerForm.reset();
+          this.registerForm.get('country')?.setValue("default");
+          this.registerForm.get('department')?.setValue("default");
+          
           // Aquí puedes hacer lo que quieras con los datos devueltos por tu API
         },
         (error) => {
@@ -84,25 +84,29 @@ export class RegisterComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     this._httpCountry.getCountries().subscribe((data: any) => {
       this.country = data;
+      // Habilitar el campo 'country'
+      this.registerForm.get('country')?.enable();
       this.getDepartment();
-      this.getCities();
     });
 
-
+    this.getDepartment();
   }
 
   getDepartment() {
     this._httpCountry.getDepartments().subscribe((data: any) => {
       this.department = data;
+      // Habilitar el campo 'department' y establecer su valor
+      this.registerForm.get('department')?.enable();
+      this.getCities();
     });
   }
 
   getCities() {
     this._httpCountry.getCities().subscribe((data: any[]) => {
       this.city = this.sort(data, 'name');
+      
     });
   }
 

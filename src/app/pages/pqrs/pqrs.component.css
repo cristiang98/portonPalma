@@ -1,0 +1,57 @@
+h1{
+    text-align: center;
+    margin-top: 150px;
+}
+
+
+
+.pqrs-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+  
+  .pqrs-container h2 {
+    text-align: center;
+  }
+  
+  .pqrs-container form div {
+    margin-bottom: 5px;
+  }
+  
+  .pqrs-container form label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .pqrs-container form input,
+  .pqrs-container form select,
+  .pqrs-container form textarea {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+  }
+  
+  .pqrs-container form button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #776B5D;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+    margin-bottom: 50px;
+  }
+  
+  .pqrs-container form button:hover {
+    background-color: #9e8e7b;
+  }
+
+  .error {
+    color: red;
+    font-size: 12px;
+  }

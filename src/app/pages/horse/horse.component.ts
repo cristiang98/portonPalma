@@ -2,11 +2,14 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { IHorse } from '../../models/horse/horse.model';
 import { ApiHorsesService } from '../../services/horses/api-horses.service';
+import { CustomCapitalizePipe } from '../../pipe/custom-capitalize.pipe';
+import { CustomCurrencyPipe } from '../../pipe/custom-currency.pipe';
+import { CustomFirstLetterUppercasePipe } from '../../pipe/custom-first-letter-uppercase.pipe';
 
 @Component({
   selector: 'app-horse',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, CustomCurrencyPipe, CustomCapitalizePipe, CustomFirstLetterUppercasePipe],
   templateUrl: './horse.component.html',
   styleUrl: './horse.component.css'
 })

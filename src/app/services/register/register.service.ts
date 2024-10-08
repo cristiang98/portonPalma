@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable, switchMap } from 'rxjs';
+import { IUser } from '../../models/userRegister/userRegister.model';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class RegisterService {
   urlBaseRegister: string = 'http://localhost:443/user/auth'
 
   registerUser(user: any): Observable<any> {
-    return this._httpRegister.post<any>(`${this.urlBaseRegister}/register`, user);
+    return this._httpRegister.post<IUser>(`${this.urlBaseRegister}/register`, user);
   }
 
 

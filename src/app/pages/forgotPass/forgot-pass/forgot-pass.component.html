@@ -1,0 +1,19 @@
+<div class="container-fluid">
+    <div class="row">
+        <h1>Recuperación de Contraseña</h1>
+        <form class="formContainer" [formGroup]="recoverForm" (ngSubmit)="onForgotPassword()">
+            <div class="row justify-content-center">
+                <div class="col-4">
+                    <label for="correoRecuperacion">*Correo Electrónico: </label>
+                    <input id="correoRecuperacion" type="text" class="form-control" placeholder="Correo Electrónico:"
+                        aria-label="*Correo Electronico:" formControlName="emailRecover"
+                        [ngClass]="{'is-invalid': hasErrors('emailRecover', 'required') || hasErrors('emailRecover', 'email')}">
+                    <div *ngIf="hasErrors('emailRecover', 'required')" class="text-danger">El Correo electrónico es requerido
+                    </div>
+                </div>
+                
+            </div>
+            <button type="submit" [disabled]="!recoverForm.valid" style="width: 32%; margin-left: 34%;">Recuperar Contraseña</button>
+        </form>
+    </div>
+</div>

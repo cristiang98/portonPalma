@@ -54,11 +54,11 @@
 
 
                 <div class="col-2">
-
                     <label for="country">*País: </label>
                     <select id="country" class="form-control" formControlName="country"
                         [ngClass]="{'is-invalid': hasErrors('country', 'required')}">
-                        <option [value]="">
+                        <option value="">Seleccione un País</option>
+                        <option [value]="country?.name">
                             {{ country?.name }}
                         </option>
                     </select>
@@ -69,12 +69,12 @@
                     <label for="departamento">*Departamento: </label>
                     <select class="form-control" id="departamento" formControlName="department"
                         [ngClass]="{'is-invalid': hasErrors('department', 'required')}">
-                        <option [value]="">
+                        <option value="">Seleccione un Departamento</option>
+                        <option [value]="department?.name" *ngIf="department?.name">
                             {{ department?.name }}
                         </option>
                     </select>
-                    <div *ngIf="hasErrors('department', 'required')" class="text-danger">El departamento es requerido
-                    </div>
+                    <div *ngIf="hasErrors('department', 'required')" class="text-danger">El departamento es requerido</div>
                 </div>
 
                 <div class="col-2">
@@ -82,7 +82,7 @@
                     <select class="form-control" id="city" formControlName="city"
                         [ngClass]="{'is-invalid': hasErrors('city', 'required')}">
                         <option value="">Seleccione una Ciudad</option>
-                        <option *ngFor="let cityItem of city" [value]="cityItem?.id">
+                        <option *ngFor="let cityItem of city" [value]="cityItem?.name">
                             {{ cityItem?.name }}
                         </option>
                     </select>
@@ -101,7 +101,7 @@
                 </div>
                 <div class="col-2">
                     <label for="">*Contraseña: </label>
-                    <input type="text" class="form-control" placeholder="Contraseña" aria-label="Contraseña"
+                    <input type="password" class="form-control" placeholder="Contraseña" aria-label="Contraseña"
                         formControlName="password"
                         [ngClass]="{'is-invalid': hasErrors('password', 'required') || hasErrors('password', 'minlength')}">
                     <div *ngIf="hasErrors('password', 'required')" class="text-danger">La contraseña es requerida</div>
@@ -111,7 +111,7 @@
 
                 <div class="col-2">
                     <label for="">*Confirmar Contraseña: </label>
-                    <input type="text" class="form-control" placeholder="Confirmar Contraseña" aria-label="Contraseña"
+                    <input type="password" class="form-control" placeholder="Confirmar Contraseña" aria-label="Contraseña"
                         formControlName="confirmPassword" [ngClass]="{'is-invalid': hasErrors('password', 'required')}">
                     <div *ngIf="hasErrors('confirmPassword', 'required')" class="text-danger">La confirmación de la
                         contraseña es requerida

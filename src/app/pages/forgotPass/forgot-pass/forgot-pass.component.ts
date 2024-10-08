@@ -1,0 +1,63 @@
+import { Component, OnInit, inject } from '@angular/core';
+import { CommonModule, NgClass } from '@angular/common';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+import { LoginService } from '../../../services/login/login.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
+@Component({
+  selector: 'app-forgot-pass',
+  standalone: true,
+  imports: [CommonModule, NgClass, ReactiveFormsModule],
+  templateUrl: './forgot-pass.component.html',
+  styleUrl: './forgot-pass.component.css'
+})
+export class ForgotPassComponent implements OnInit {
+
+  recoverForm!: FormGroup; // se coloca ! para indicar que se inicializará en el ngOnInit y no será null en el constructor o en la declaración de la variable en la clase 
+  private _httpLogin = inject(HttpClient);
+  private _loginService = inject(LoginService);
+  private _snackBar = inject(MatSnackBar);
+
+  checkPasswords(group: FormGroup) {
+    let pass = group.get('password')?.value;
+    let confirmPass = group.get('confirmPassword')?.value;
+
+    return pass === confirmPass ? null : { notSame: true }
+  }
+
+  hasErrors(field: string, typeError: string) {
+    return this.recoverForm.get(field)?.hasError(typeError) && this.recoverForm.get(field)?.touched;
+  }
+
+
+
+  onForgotPassword() {
+    if (this.recoverForm.valid) {
+      const emailRequest = { email: this.recoverForm.get('emailRecover')?.value };
+      this._loginService.forgotPassword(emailRequest).subscribe(
+        response => {
+          console.log('Response:', response);
+          this._snackBar.open('Correo enviado correctamente', 'Cerrar', {
+            duration: 5000,
+            verticalPosition: 'top',
+            panelClass: 'my-snackbar',
+          });
+          this.recoverForm.reset();
+        },
+        error => {
+          console.error('Error:', error);
+        }
+      );
+    } else {
+      console.error('Form is not valid');
+    }
+  }
+
+  ngOnInit() {
+    this.recoverForm = new FormGroup({
+      'emailRecover': new FormControl(null, [Validators.required, Validators.email])
+    });
+  }
+
+}

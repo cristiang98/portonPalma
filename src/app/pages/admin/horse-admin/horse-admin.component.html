@@ -1,0 +1,147 @@
+<div class="container lista">
+    <!-- Lista de caballos -->
+    <h1>Lista de caballos</h1>
+
+
+    <div class="horse-list" style="height: 38vh; overflow-y: auto;">
+        <div *ngFor="let horse of horses  | slice: (currentPage-1) * itemsPerPage : currentPage * itemsPerPage">
+
+            <table class="table table-light">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Raza</th>
+                        <th scope="col">Descripción</th>
+                        <th scope="col">Precio</th>
+                        <th scope="col">Nacimiento</th>
+                        <th scope="col">Imagen</th>
+                        <th scope="col">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td> {{horse.idHorse}} </td>
+                        <td>{{horse.breed | customCapitalize}}</td>
+                        <td>{{horse.description | customFirstLetterUppercase}}</td>
+                        <td>{{horse.price | customCurrency}}</td>
+                        <td>{{horse.bornOn}}</td>
+                        <td><img style="height: 50px; width: 50px;" [src]="horse.imagePath" alt="{{horse.breed}}"></td>
+                        <td><a (click)="deleteHorse(horse.idHorse)" class="btn btn-primary">Eliminar</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="pagination">
+
+        <button [disabled]="currentPage === 1" (click)="currentPage = currentPage - 1">Anterior</button>
+        <span>Página {{currentPage}} de {{totalPages}}</span>
+        <button [disabled]="currentPage === horses.length / itemsPerPage"
+        (click)="currentPage = currentPage + 1">Siguiente</button>
+    
+    </div>
+
+    <!-- Formulario para agregar un nuevo caballo -->
+    <div class="save">
+        <h1>Agregar caballo</h1>
+
+        <form #horseForm="ngForm" (ngSubmit)="onSubmit(horseForm)">
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="breed-addon">Raza</span>
+                <input type="text" id="breed" [(ngModel)]="newHorse.breed" name="breed" class="form-control"
+                    placeholder="Raza del caballo" aria-label="Raza" aria-describedby="breed-addon" required>
+            </div>
+
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="description-addon">Descripción</span>
+                <textarea id="description" [(ngModel)]="newHorse.description" name="description" class="form-control"
+                    placeholder="Descripción del caballo" aria-label="Descripción" aria-describedby="description-addon"
+                    required></textarea>
+            </div>
+
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="price-addon">Precio</span>
+                <input type="number" id="price" [(ngModel)]="newHorse.price" name="price" class="form-control"
+                    placeholder="Precio" aria-label="Precio" aria-describedby="price-addon" required>
+
+            </div>
+
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="bornOn-addon">Fecha de Nacimineto</span>
+                <input type="date" id="bornOn" [(ngModel)]="newHorse.bornOn" name="bornOn" class="form-control"
+                    aria-label="Fecha de nacimiento" aria-describedby="bornOn-addon" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="file" class="form-label">Imagen del caballo</label>
+                <input type="file" id="file" (change)="onFileChange($event)" class="form-control" required>
+
+            </div>
+
+            <div class="mb-3">
+                <img [src]="previewUrl" *ngIf="previewUrl" class="img-preview" style="height: 50px; width: 50px;">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Agregar caballo</button>
+        </form>
+    </div>
+
+    <div class="update">
+        <h1>Actualizar caballo</h1>
+        <div class="input-group mb-3 divBuscar" >
+            <label for="update-horse-select" class="form-label">Selecciona un caballo</label>
+            <input type="text" id="update-horse-input" [(ngModel)]="selectedHorseId" name="selectedHorseId" class="form-control mb-3 inputBuscar"
+            (change)="onHorseSelectChange()">
+        </div>
+        
+
+        <div *ngIf="horseById">
+
+            <form #updateHorseForm="ngForm" (ngSubmit)="updateHorse(updateHorseForm)">
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="update-breed-addon">Raza</span>
+                    <input type="text" id="update-breed" [(ngModel)]="horseById.breed" name="breed" class="form-control"
+                        placeholder="Raza del caballo" aria-label="Raza" aria-describedby="update-breed-addon" required>
+
+                    
+                </div>
+
+                <div class="input-group">
+                    <span class="input-group-text" id="update-description-addon">Descripción</span>
+                    <textarea id="update-description" [(ngModel)]="horseById.description" name="description"
+                        class="form-control" placeholder="Descripción del caballo" aria-label="Descripción"
+                        aria-describedby="update-description-addon" required></textarea>
+                </div>
+
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="update-price-addon">Precio</span>
+                    <input type="number" id="update-price" [(ngModel)]="horseById.price" name="price"
+                        class="form-control" placeholder="Precio" aria-label="Precio"
+                        aria-describedby="update-price-addon" required>
+                </div>
+
+                <div class="input-group mb-3 " >
+                    <span class="input-group-text" id="update-bornOn-addon">Fecha de Nacimiento</span>
+                    <input type="date" id="update-bornOn" [(ngModel)]="horseById.bornOn" name="bornOn"
+                        class="form-control" aria-label="Fecha de nacimiento" aria-describedby="update-bornOn-addon"
+                        required disabled>
+                </div>
+
+                <div class="mb-3">
+                    <label for="update-file" class="form-label">Imagen del caballo</label>
+                    <input type="file" id="update-file" (change)="onFileChange($event)" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                    <img [src]="previewUrl" *ngIf="previewUrl" class="img-preview" style="height: 50px; width: 50px;">
+                </div>
+
+                <button type="submit" class="btn btn-primary">Actualizar caballo</button>
+            </form>
+
+        </div>
+
+    </div>
+
+</div>

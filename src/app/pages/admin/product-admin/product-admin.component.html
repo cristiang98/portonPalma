@@ -1,0 +1,169 @@
+<div class="container lista">
+    <!-- Lista de productos -->
+    <h1>Lista de productos</h1>
+
+
+    <div class="product-list" style="height: 38vh; overflow-y: auto;">
+        <div *ngFor="let product of products | slice: (currentPage-1) * itemsPerPage : currentPage * itemsPerPage">
+
+            <table class="table table-light">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Descripción</th>
+                        <th scope="col">Precio</th>
+                        <th scope="col">Existencias</th>
+                        <th scope="col">Categoria</th>
+                        <th scope="col">Imagen</th>
+                        <th scope="col">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td> {{product.idProduct}} </td>
+                        <td>{{product.nameProduct | customCapitalize}}</td>
+                        <td>{{product.description | customFirstLetterUppercase}}</td>
+                        <td>{{product.price | customCurrency}}</td>
+                        <td>{{product.stock}}</td>
+                        <td>{{product.category}} </td>
+                        <td><img style="height: 50px; width: 50px;" [src]="product.imagePath" alt="{{product.nameProduct}}"></td>
+                        <td><a (click)="deleteProduct(product.idProduct)" class="btn btn-primary">Eliminar</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="pagination">
+
+        <button [disabled]="currentPage === 1" (click)="currentPage = currentPage - 1">Anterior</button>
+        <span>Página {{currentPage}} de {{totalPages}}</span>
+        <button [disabled]="currentPage === products.length / itemsPerPage"
+        (click)="currentPage = currentPage + 1">Siguiente</button>
+    
+    </div>
+
+    <!-- Formulario para agregar un nuevo producto -->
+    <div class="save">
+        <h1>Agregar producto</h1>
+
+        <form #productForm="ngForm" (ngSubmit)="onSubmit(productForm)">
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="nameProduct-addon">Nombre del Producto</span>
+                <input type="text" id="nameProduct" [(ngModel)]="newProduct.nameProduct" name="nameProduct" class="form-control"
+                    placeholder="Nombre del producto" aria-label="Nombre" aria-describedby="nameProduct-addon" required>
+            </div>
+
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="description-addon">Descripción</span>
+                <textarea id="description" [(ngModel)]="newProduct.description" name="description" class="form-control"
+                    placeholder="Descripción del producto" aria-label="Descripción" aria-describedby="description-addon"
+                    required></textarea>
+            </div>
+
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="price-addon">Precio</span>
+                <input type="number" id="price" [(ngModel)]="newProduct.price" name="price" class="form-control"
+                    placeholder="Precio" aria-label="Precio" aria-describedby="price-addon" required>
+
+            </div>
+
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="existencias-addon">Existencias</span>
+                <input type="number" id="existencias" [(ngModel)]="newProduct.stock" name="existencias" class="form-control"
+                    aria-label="existencias" aria-describedby="existencias-addon" required>
+            </div>
+
+            <div class="col-2">
+                <label for="category">Categoria </label>
+                <select id="category" class="form-control" [(ngModel)]="newProduct.category" name="category">
+                    <option value="">Seleccione una Categoria</option>
+                    <option *ngFor="let categoryKey of categoryKeys" [value]="categoryKey">
+                        {{categoryKey}}
+                    </option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="file" class="form-label">Imagen del Producto</label>
+                <input type="file" id="file" (change)="onFileChange($event)" class="form-control" required>
+
+            </div>
+
+            <div class="mb-3">
+                <img [src]="previewUrl" *ngIf="previewUrl" class="img-preview" style="height: 50px; width: 50px;">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Agregar producto</button>
+        </form>
+    </div>
+
+    <!-- Formulario para actualizar un producto -->
+    <div class="update">
+        <h1>Actualizar producto</h1>
+
+        <div class="input-group mb-3 divBuscar" >
+            <label for="update-horse-select" class="form-label">Selecciona un Producto</label>
+            <input type="text" id="update-product-input" [(ngModel)]="selectedProductId" name="selectedProductId" class="form-control mb-3 inputBuscar"
+            (change)="onProductSelectChange()">
+            
+        </div>
+
+        <div *ngIf="productById">
+            
+            <form #updateproductForm="ngForm" (ngSubmit)="updateProduct(updateproductForm)">
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="update-nameProduct-addon">Nombre</span>
+                    <input type="text" id="update-nameProduct" [(ngModel)]="productById.nameProduct" name="nameProduct" class="form-control"
+                        placeholder="Nombre del producto" aria-label="Nombre" aria-describedby="update-nameProduct-addon" required>
+
+                    
+                </div>
+
+                <div class="input-group">
+                    <span class="input-group-text" id="update-description-addon">Descripción</span>
+                    <textarea id="update-description" [(ngModel)]="productById.description" name="description"
+                        class="form-control" placeholder="Descripción del producto" aria-label="Descripción"
+                        aria-describedby="update-description-addon" required></textarea>
+                </div>
+
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="update-price-addon">Precio</span>
+                    <input type="number" id="update-price" [(ngModel)]="productById.price" name="price"
+                        class="form-control" placeholder="Precio" aria-label="Precio"
+                        aria-describedby="update-price-addon" required>
+                </div>
+
+                <div class="input-group mb-3 " >
+                    <span class="input-group-text" id="update-existencias-addon">Existencias</span>
+                    <input type="text" id="update-existencias" [(ngModel)]="productById.stock" name="existencias"
+                        class="form-control" aria-label="existencias" aria-describedby="update-existencias-addon"
+                        required >
+                </div>
+
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="update-category-addon">Categoria</span>
+                    <input type="text" id="update-category" [(ngModel)]="productById.category" name="category"
+                        class="form-control" placeholder="categoria" aria-label="category"
+                        aria-describedby="update-category-addon" required>
+                </div>
+                
+
+                <div class="mb-3">
+                    <label for="update-file" class="form-label">Imagen del producto</label>
+                    <input type="file" id="update-file" (change)="onFileChange($event)" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                    <img [src]="previewUrl" *ngIf="previewUrl" class="img-preview" style="height: 50px; width: 50px;">
+                </div>
+
+                <button type="submit" class="btn btn-primary">Actualizar producto</button>
+            </form>
+
+        </div>
+
+    </div>
+
+</div>

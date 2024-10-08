@@ -1,0 +1,73 @@
+<div class="wrapper d-flex align-items-stretch">
+  <nav id="sidebar">
+
+    <div class="img bg-wrap text-center py-4">
+      <div class="user-logo">
+        <div class="img" style="background-image: url(images/logo.jpg);"></div>
+        <h3 style="font-size: 1.5em;"> {{name}} </h3>
+      </div>
+    </div>
+    <ul class="list-unstyled components mb-5">
+      <li class="active">
+        <a routerLink="/admin" [ngClass]="{active:menuOption === 'admin'}" (click)="onOption('admin')"><span
+            class="fa fa-download mr-3 notif"></span>Inicio</a>
+      </li>
+      <li>
+        <a routerLink="admin/horse/v1" [ngClass]="{active:menuOption === 'admin/horse/v1'}"
+          (click)="onOption('admin/horse/v1')"><span class="fa fa-download mr-3 notif"></span>Caballos</a>
+
+      </li>
+      <li>
+        <a routerLink="admin/product/v1" [ngClass]="{active:menuOption === 'admin/product/v1'}"
+          (click)="onOption('admin/product/v1')"><span class="fa fa-gift mr-3"></span> Productos</a>
+      </li>
+      <li>
+        <a routerLink='admin/services/v1' [ngClass]="{active:menuOption === 'admin/services/v1'}"
+          (click)="onOption('admin/services/v1')"><span class="fa fa-trophy mr-3"></span> Servicios</a>
+      </li>
+      <li>
+        <a routerLink="admin/event/v1" [ngClass]="{active:menuOption === 'admin/event/v1'}"
+          (click)="onOption('admin/event/v1')"><span class="fa fa-cog mr-3"></span> Eventos </a>
+      </li>
+      <li>
+        <a [ngClass]="{active:menuOption === 'admin/show-sale'}" (click)="onOption('admin/show-sale')"><span
+            class="fa fa-support mr-3"></span> Mostrar Ventas</a>
+      </li>
+      <li>
+        <a (click)="onOption('')"><span class="fa fa-sign-out mr-3"></span> Salir</a>
+      </li>
+    </ul>
+
+  </nav>
+
+  <!-- Page Content  -->
+  <div id="content" class="p-4 p-md-5 pt-5">
+
+    <ng-container *ngIf="currentRoute === '/admin'">
+
+      <app-home-admin></app-home-admin>
+
+    </ng-container>
+
+    <!-- Muestra estos componentes solo si la ruta actual no es '/admin' -->
+    <ng-container *ngIf="currentRoute !== '/admin'">
+      <ng-container *ngIf="menuOption === 'admin/horse/v1'">
+        <app-horse-admin></app-horse-admin>
+      </ng-container>
+      <ng-container *ngIf="menuOption === 'admin/product/v1'">
+        <app-product-admin></app-product-admin>
+      </ng-container>
+      <ng-container *ngIf="menuOption === 'admin/event/v1'">
+        <app-event-admin></app-event-admin>
+      </ng-container>
+      <ng-container *ngIf="menuOption === 'admin/services/v1'">
+        <app-servicee-admin></app-servicee-admin>
+
+      </ng-container>
+      <ng-container *ngIf="menuOption === 'admin/show-sale'">
+        <app-sales></app-sales>
+      </ng-container>
+    </ng-container>
+  </div>
+
+</div>
