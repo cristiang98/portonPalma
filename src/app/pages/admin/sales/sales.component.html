@@ -1,7 +1,8 @@
 <div class="container lista">
     <h1>Lista de Ventas</h1>
 
-    <div *ngFor="let sale of saleHistory | slice: (currentPage-1) * itemsPerPage : currentPage * itemsPerPage">
+    
+    <div *ngFor="let sale of sales | slice: (currentPage-1) * itemsPerPage : currentPage * itemsPerPage">
         <div class="sale-list" style="height: 100%; overflow-y: auto;">
             <table class="table table-light">
                 <thead>
@@ -9,8 +10,10 @@
                         <th scope="col">ID</th>
                         <th scope="col">Email</th>
                         <th scope="col">Cédula</th>
+                        <th scope="col">Dirección</th>
                         <th scope="col">Fecha</th>
                         <th scope="col">Productos</th>
+                        <th scope="col">Precio</th>
                         <th scope="col">Total</th>
                     </tr>
                 </thead>
@@ -19,9 +22,22 @@
                         <td> {{sale.id}} </td>
                         <td>{{sale.userEmail}}</td>
                         <td>{{sale.dni}}</td>
+                        <td>{{sale.address}}</td>
                         <td>{{sale.date}}</td>
-                        <td *ngFor="let item of sale.items | keyvalue">{{item.key}}: {{item.value}}</td>
-                        <td>{{sale.total}}</td>
+                        <td>
+                            <table class="table table-light">
+                                <tr *ngFor="let item of sale.items">
+                                    <td>{{item.nameProduct | customCapitalize}} </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td>
+                            <table class="table table-light">
+                                <tr *ngFor="let item of sale.items">
+                                    <td>{{item.price | customCurrency}}</td>
+                                </tr>
+                            </table>
+                        <td>{{sale.total | customCurrency}}</td>
                     </tr>
                 </tbody>
             </table>

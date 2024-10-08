@@ -18,8 +18,8 @@ export class SaleService {
     return this._httpSale.get(`${this.urlBase}/successful`, {responseType: 'text' , withCredentials: true})
   }
 
-  getSaleHistory(): Observable<ISale[]> {
-    return this._httpSale.get<ISale[]>(`${this.urlBase}/history`, { withCredentials: true });
+  getSaleHistory(): Observable<SaleInf[]> {
+    return this._httpSale.get<SaleInf[]>(`${this.urlBase}/history`, { withCredentials: true });
   }
 
   getMyHistory(): Observable<SaleInf[]> {

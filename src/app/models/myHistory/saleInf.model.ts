@@ -3,6 +3,7 @@ export interface SaleInf {
     total: number;
     userEmail: string;
     dni: string;
+    address: string;
     items: ProductDto[];
     date: string; // Las fechas se suelen manejar como strings en TypeScript/JavaScript
   }
