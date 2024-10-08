@@ -81,5 +81,9 @@ export class ApiProductsService {
     
   }
 
+  putproductWithoutImage(id: number, product: IProduct): Observable<any> {
+    return this._httpProduct.put(`${this.urlBase}/put/${id}`, product , {withCredentials: true});
+  }
+
   constructor() { }
 }

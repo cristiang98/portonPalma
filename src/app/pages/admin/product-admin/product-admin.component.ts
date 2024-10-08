@@ -17,7 +17,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './product-admin.component.html',
   styleUrl: './product-admin.component.css'
 })
-export class ProductAdminComponent implements OnInit, OnDestroy{
+export class ProductAdminComponent implements OnInit, OnDestroy {
 
   currentPage: number = 1;
   itemsPerPage: number = 4;
@@ -35,7 +35,7 @@ export class ProductAdminComponent implements OnInit, OnDestroy{
 
   };
 
-  productById :any = null;
+  productById: any = null;
   selectedFile: File | null = null;
   previewUrl: string | ArrayBuffer | null = null;
   selectedProductId: number = 0;
@@ -56,7 +56,7 @@ export class ProductAdminComponent implements OnInit, OnDestroy{
       this.totalPages = Math.ceil(this.products.length / this.itemsPerPage);
     });
 
-    
+
   }
 
   ngOnDestroy() {
@@ -94,8 +94,8 @@ export class ProductAdminComponent implements OnInit, OnDestroy{
           const url = new URL(imagePath);
           const pathname = url.pathname;
           const filename = pathname.substring(pathname.lastIndexOf('/') + 1);
-  
-          this.selectedFile = new File([blob], filename, {type: 'image/jpeg'});
+
+          this.selectedFile = new File([blob], filename, { type: 'image/jpeg' });
           this.previewUrl = URL.createObjectURL(this.selectedFile);
           this.productById = product;
           if (product.idProduct === undefined) {
@@ -118,7 +118,7 @@ export class ProductAdminComponent implements OnInit, OnDestroy{
           console.log('El token ha expirado');
         } else {
           console.log('El token no ha expirado');
-          this._productService.addProduct( this.selectedFile,this.newProduct).subscribe(() => {
+          this._productService.addProduct(this.selectedFile, this.newProduct).subscribe(() => {
             this.getProducts(); // Actualiza la lista de caballos
 
             // Muestra un mensaje de confirmación
@@ -130,8 +130,16 @@ export class ProductAdminComponent implements OnInit, OnDestroy{
 
             form.reset(); // Limpia el formulario
             this.selectedFile = null; // Limpia el archivo seleccionado
+            this.previewUrl = null; // Limpia la URL de vista previa
+
+            // Limpia el campo de archivo en el formulario
+            const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
+            if (fileInput) {
+              fileInput.value = '';
+            }
           });
         }
+
       } else {
         // Muestra un mensaje de error
 
@@ -145,6 +153,17 @@ export class ProductAdminComponent implements OnInit, OnDestroy{
       }
     }
     console.log('Formulario valido?', form.valid, this.newProduct);
+    if (form.valid == false || this.selectedFile == null) {
+      // Muestra un mensaje de error
+
+      this._snackBar.open('Error al agregar el producto', 'Cerrar', {
+        duration: 5000,
+        verticalPosition: 'top',
+        panelClass: 'my-snackbar',
+      });
+
+      console.log('Error al agregar el producto');
+    }
   }
 
   deleteProduct(idProduct: number | undefined) {
@@ -185,6 +204,12 @@ export class ProductAdminComponent implements OnInit, OnDestroy{
     if (form.valid) {
       if (this.selectedFile === null) {
         console.log('No file selected');
+        this._snackBar.open('No se ha seleccionado un archivo', 'Cerrar', {
+          duration: 5000,
+          verticalPosition: 'top',
+          panelClass: 'my-snackbar',
+        });
+
         // Handle no file selected
       } else {
         this._productService.putProduct(this.selectedProductId, this.productById, this.selectedFile).subscribe(
@@ -198,6 +223,8 @@ export class ProductAdminComponent implements OnInit, OnDestroy{
             });
 
             form.reset();
+            this.selectedFile = null;
+            this.previewUrl = null;
             // Handle successful response
           },
           error => {
@@ -214,22 +241,30 @@ export class ProductAdminComponent implements OnInit, OnDestroy{
         );
       }
     }
+    else {
+      console.log('Formulario invalido');
+      this._snackBar.open('Formulario inválido', 'Cerrar', {
+        duration: 5000,
+        verticalPosition: 'top',
+        panelClass: 'my-snackbar',
+      });
+    }
   }
 
   onProductSelectChange() {
-  console.log('selectedProductId:', this.selectedProductId); // Verificar el valor de selectedProductId
+    console.log('selectedProductId:', this.selectedProductId); // Verificar el valor de selectedProductId
 
-  const selectedProductId = Number(this.selectedProductId);
-  const selectedProduct = this.products.find(product => {
-    console.log('product.idProduct:', product.idProduct); // Verificar el valor de idProduct para cada producto
-    return product.idProduct === selectedProductId;
-  });
+    const selectedProductId = Number(this.selectedProductId);
+    const selectedProduct = this.products.find(product => {
+      console.log('product.idProduct:', product.idProduct); // Verificar el valor de idProduct para cada producto
+      return product.idProduct === selectedProductId;
+    });
 
-  if (selectedProduct) {
-    this.productById = selectedProduct;
-  } else {
-    alert("Producto no existe");
-  }
+    if (selectedProduct) {
+      this.productById = selectedProduct;
+    } else {
+      alert("Producto no existe");
+    }
   }
 
 }
