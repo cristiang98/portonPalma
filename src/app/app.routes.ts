@@ -18,6 +18,7 @@ import { EventsComponent } from './pages/events/events.component';
 import { SalesComponent } from './pages/admin/sales/sales.component';
 import { HistoryUserComponent } from './pages/history-user/history-user.component';
 import { PqrsComponent } from './pages/pqrs/pqrs.component';
+import { ContactComponent } from './pages/contact/contact.component';
 
 export const routes: Routes = [
 
@@ -34,6 +35,7 @@ export const routes: Routes = [
     { path: 'edit-user', component: EditUserComponent},
     { path: 'history-user', component: HistoryUserComponent },
     { path: 'pqrs', component: PqrsComponent},
+    {path: 'contact', component: ContactComponent},
     { path: 'admin', component: AdminComponent, canActivate:[adminGuard], children: [
         { path: 'horse/v1', component: HorseAdminComponent },
         { path: 'product/v1', component: ProductAdminComponent },
